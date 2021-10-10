@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { createAsyncThunk } from "@reduxjs/toolkit";
+import { getAuth, signInWithPopup, GoogleAuthProvider, signOut, signInWithCredential } from "firebase/auth";
 import { initializeApp } from 'firebase/app';
-import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 
 const firebaseApp = initializeApp({
     apiKey: 'AIzaSyDZWaOTq1z1RbaHPM-tMzubnMexLyCFHvA',
@@ -18,18 +18,32 @@ const initialState = {
   user: {}
 };
 
+const provider = new GoogleAuthProvider();
+const auth = getAuth();
+
 export const login = createAsyncThunk('login', async () => {
-    const provider = new GoogleAuthProvider();
-    const auth = getAuth();
     const user = await signInWithPopup(auth, provider);
     return user;
+});
+
+export const loginWithCredentials = createAsyncThunk('loginWithCredentials', async () => {
+    const { uid } = JSON.stringify(window.localStorage.getItem('userData'));
+    const user = await auth.signInWithCredential(uid);
+    return user;
+});
+
+export const logout = createAsyncThunk('logout', async () => {
+    const out = await auth.signOut();
+    console.log(out)
 });
 
 export const app = createSlice({
   name: 'app',
   initialState,
   reducers: {
-
+    toggleLogin: (state) => {
+        state.login = !state.login;
+    }
   },
   extraReducers: (builder) => {
     builder
@@ -37,15 +51,45 @@ export const app = createSlice({
 
     })
     .addCase(login.fulfilled, (state, action) => {
-        state.user = action.payload;
+        const { user } = action.payload;
+        const { accessToken, email, uid } = user;
+        state.user.accessToken = accessToken;
+        state.user.email = email;
+        state.user.uid = uid;
         state.login = true;
+        window.localStorage.setItem('userData', JSON.stringify({uid, email}));
     })
     .addCase(login.rejected, (state) => { 
+
+    })
+    .addCase(logout.pending, (state) => { 
+
+    })
+    .addCase(logout.fulfilled, (state) => {
+        state.user = {};
+        state.login = false;
+    })
+    .addCase(logout.rejected, (state) => { 
+
+    })
+    .addCase(loginWithCredentials.pending, (state) => { 
+
+    })
+    .addCase(loginWithCredentials.fulfilled, (state, action) => {
+        const { user } = action.payload;
+        const { accessToken, email, uid } = user;
+        state.user.accessToken = accessToken;
+        state.user.email = email;
+        state.user.uid = uid;
+        state.login = true;
+        window.localStorage.setItem('userData', JSON.stringify({uid, email}));
+    })
+    .addCase(loginWithCredentials.rejected, (state) => { 
 
     })
   }
 });
 
-export const { } = app.actions;
+export const { toggleLogin } = app.actions;
 
 export default app.reducer;
