@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { getAuth, signInWithPopup, GoogleAuthProvider, signOut, signInWithCredential } from "firebase/auth";
 import { initializeApp } from 'firebase/app';
+import { nanoid } from "@reduxjs/toolkit";
 
 const firebaseApp = initializeApp({
     apiKey: 'AIzaSyDZWaOTq1z1RbaHPM-tMzubnMexLyCFHvA',
@@ -15,7 +16,43 @@ const firebaseApp = initializeApp({
 
 const initialState = {
   login: false,
-  user: {}
+  user: {},
+  mockData: [{
+    id: nanoid(), 
+    name: 'kinopoisk',
+    cost: 169,
+    currency: 'RUB',
+    option: 1,
+    date: '11.10.2019',
+    letter: 'k'
+  },
+  {
+    id: nanoid(), 
+    name: 'ivy',
+    cost: 500,
+    currency: 'RUB',
+    option: 3,
+    date: '05.05.2020',
+    letter: 'i'
+  },
+  {
+    id: nanoid(), 
+    name: 'psn',
+    cost: 2500,
+    currency: 'RUB',
+    option: 6,
+    date: '01.01.2021',
+    letter: 'p'
+  },
+  {
+    id: nanoid(), 
+    name: 'spotify',
+    cost: 1000,
+    currency: 'RUB',
+    option: 12,
+    date: '01.01.2017',
+    letter: 's'
+  }]
 };
 
 const provider = new GoogleAuthProvider();

@@ -4,6 +4,7 @@ import { login, logout, logOut, loginWithCredentials } from "./slices/app";
 import Header from "./components/Header/Header";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import Main from "./components/Main/Main";
+import About from "./components/About/About";
 
 export default function App() {
   const user = useSelector((state) => state.app.user);
@@ -20,11 +21,12 @@ export default function App() {
   return (
     <Router>
       <Header />
-      <main className='main'>
         <Route exact path='/'>
           <Main />
         </Route>
-      </main>
+        <Route path='/about'>
+          <About />
+        </Route>
     </Router>
   );
 }

@@ -24,3 +24,7 @@ code {
 .main {
   width: 100%;
 }
+
+.sabTable-item {
+  display: flex;
+}
