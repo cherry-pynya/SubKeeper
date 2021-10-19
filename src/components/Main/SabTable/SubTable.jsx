@@ -5,7 +5,7 @@ export default function SubTable() {
     const data = useSelector((state) => state.app.mockData);
 
     return(
-        <section>
+        <section style={{width: '70%'}}>
             {data.map((el) => <SubTableItem item={el} key={el.id} />)}
         </section>
     );
