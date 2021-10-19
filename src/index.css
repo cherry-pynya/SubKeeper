@@ -1,7 +1,5 @@
-html {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+html, body, #root, .App {
+    min-height: 100%;
 }
 
 #root {

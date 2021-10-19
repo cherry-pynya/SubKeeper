@@ -5,6 +5,7 @@ import Header from "./components/Header/Header";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import Main from "./components/Main/Main";
 import About from "./components/About/About";
+import Footer from "./components/Footer/Footer";
 
 export default function App() {
   const user = useSelector((state) => state.app.user);
@@ -27,6 +28,7 @@ export default function App() {
         <Route path='/about'>
           <About />
         </Route>
+      <Footer />
     </Router>
   );
 }
