@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
 import LoginButton from '../../LoginButton/LoginButton';
 import NavLink from './NavLink/NavLink';
+import { nanoid } from '@reduxjs/toolkit';
 
 const logedOut = [
     {
@@ -63,10 +64,10 @@ export default function HeaderNav() {
     return(
         <nav className='navbar navbar-expand-lg navbar-light'>
             <div className='container-fluid'>
-                <Link class="navbar-brand" to='/'>SubKeeper</Link>
-                <div class="collapse navbar-collapse" id="navbarNav">
+                <Link className="navbar-brand" to='/'>SubKeeper</Link>
+                <div className="collapse navbar-collapse" id="navbarNav">
                     <ul className='navbar-nav' onClick={navClick}>
-                        {items.map((el) => <NavLink item={el} />)}
+                        {items.map((el) => <NavLink item={el} key={nanoid()} />)}
                     </ul>
                 </div>
                 <LoginButton />

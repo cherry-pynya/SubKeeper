@@ -2,6 +2,7 @@ import optionConverter from "../../../utils/optionConverter";
 import currencyConverter from "../../../utils/currensyConverter";
 import "../../../../materialIcons.css";
 import { randomColor } from "randomcolor";
+import loacaleDate from "../../../utils/localeDate";
 
 export default function SubTableItem({ item }) {
   let { letter, name, cost, currency, option, date } = item;
@@ -32,14 +33,14 @@ export default function SubTableItem({ item }) {
         <span>{`списание ${option}`}</span>
       </div>
       <div className="sabTable-item-smal-text-container">
-        <span>{date}</span>
+        <span>{loacaleDate(date)}</span>
       </div>
       <div className="sabTable-item-buttons column">
         <button className="sabTable-item-button">
-          <span class="material-icons md-24">highlight_off</span>
+          <span className="material-icons md-24">highlight_off</span>
         </button>
         <button className="sabTable-item-button">
-          <span class="material-icons">edit</span>
+          <span className="material-icons">edit</span>
         </button>
       </div>
     </div>
