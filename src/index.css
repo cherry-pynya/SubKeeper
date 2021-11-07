@@ -9,16 +9,10 @@ html, body, #root, .App {
 
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", 'Source Sans Pro', sans-serif;
-  display: -webkit-box;
-  display: -ms-flexbox;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", "Source Sans Pro", sans-serif;
   display: flex;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
+  align-items: center;
+  justify-content: center;
   width: 100%;
 }
 
@@ -32,20 +26,20 @@ code {
 
 .sabTable-item {
   width: 90%;
-  display: -webkit-box;
-  display: -ms-flexbox;
+  display: flex;
+  flex-direction: column;
+  margin-top: 20px;
+  font-family: "Source Sans Pro", sans-serif;
+  color: #050505;
+}
+
+.sabTable-item-container {
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 15px 0 15px;
   display: flex;
   height: 100px;
-  margin-top: 20px;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  -webkit-box-pack: justify;
-      -ms-flex-pack: justify;
-          justify-content: space-between;
-  padding: 0 15px 0 15px;
-  font-family: 'Source Sans Pro', sans-serif;
-  color: #050505;
 }
 
 .border {
@@ -54,13 +48,8 @@ code {
 }
 
 .column {
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
+  flex-direction: column;
 }
 
 .sabTable-item-button {
@@ -76,22 +65,15 @@ code {
 
 .sabTable-item-letter {
   font-size: 70px;
-  -webkit-text-decoration: solid;
-          text-decoration: solid;
+  text-decoration: solid;
   text-transform: uppercase;
 }
 
 .sabTable-item-letter-container {
   width: 70px;
   height: 70px;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-  display: -webkit-box;
-  display: -ms-flexbox;
+  align-items: center;
+  justify-content: center;
   display: flex;
 }
 
@@ -106,4 +88,9 @@ code {
 .sabTable-item-large-text-container {
   width: 30%;
 }
+
+.inActive {
+  display: none;
+}
+
 /*# sourceMappingURL=index.css.map */

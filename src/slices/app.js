@@ -10,6 +10,7 @@ import {
 import { initializeApp } from "firebase/app";
 import { nanoid } from "@reduxjs/toolkit";
 import extractCurrency from "../components/utils/extractCurrency";
+import Statistics from "../components/utils/Statistics";
 
 const firebaseApp = initializeApp({
   apiKey: "AIzaSyDZWaOTq1z1RbaHPM-tMzubnMexLyCFHvA",
@@ -25,7 +26,7 @@ const initialState = {
   login: false,
   currency: [],
   user: {},
-  statistics: {},
+  statistics: [],
   mockData: [
     {
       id: nanoid(),
@@ -55,6 +56,17 @@ const initialState = {
       cost: 2500,
       currency: "RUB",
       option: 6,
+      date: "20210101",
+      letter: "p",
+      active: false,
+      canceled: '20120613',
+    },
+    {
+      id: nanoid(),
+      name: "photoshop",
+      cost: 100,
+      currency: "USD",
+      option: 12,
       date: "20210101",
       letter: "p",
       active: false,
@@ -93,7 +105,6 @@ export const loginWithCredentials = createAsyncThunk(
 
 export const logout = createAsyncThunk("logout", async () => {
   const out = await auth.signOut();
-  console.log(out);
 });
 
 export const getCurrency = createAsyncThunk("getCurrency", async () => {
@@ -112,7 +123,12 @@ export const app = createSlice({
   reducers: {
     toggleLogin: (state) => {
       state.login = !state.login;
+      const stats = new Statistics(state.mockData, state.currency);
+      state.statistics = stats.init();
     },
+    setStatistics: (state, action) => {
+      state.statistics = action.payload;
+    }
   },
   extraReducers: (builder) => {
     builder
@@ -154,6 +170,6 @@ export const app = createSlice({
   },
 });
 
-export const { toggleLogin } = app.actions;
+export const { toggleLogin, setStatistics } = app.actions;
 
 export default app.reducer;

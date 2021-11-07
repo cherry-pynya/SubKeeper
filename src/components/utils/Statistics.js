@@ -70,9 +70,9 @@ const cur = [
 ]
 
 export default class Statistics {
-  constructor(data, currency) {
+  constructor(data, cur) {
     this.data = data;
-    this.cur = currency;
+    this.cur = cur;
     this.date = moment();
     // сколько ты тратишь в месяц
     // сколько всего заплатил
@@ -84,11 +84,11 @@ export default class Statistics {
 
   costPerMonth() {
     this.data.forEach((el) => {
-        const {cost, option, date, name, currency} = el;
+        const {cost, option, date, name, currency, id} = el;
         const costPerMonth = (cost / option).toFixed(2);
         const activeMonths = Math.floor(moment().diff(moment(date), 'months', true));
-        const [costPerMonthRUB, costPerMonthUSD, costPerMonthEUR] = this.costPerCurrency(costPerMonth, currency)
-        this.addToStats({name, costPerMonthRUB, activeMonths, costPerMonthUSD, costPerMonthEUR});
+        const [RUB, USD, EUR] = this.costPerCurrency(costPerMonth, currency)
+        this.addToStats({name, RUB, activeMonths, USD, EUR, id, currency, option, cost});
     });
   };
 
@@ -119,7 +119,6 @@ export default class Statistics {
     };
 
     const arr = [+rub, +usd, +eur].map((el) => +(el.toFixed(2)))
-    console.log(arr)
 
     return arr;
   };
@@ -129,8 +128,23 @@ export default class Statistics {
       return obj['Value'].toFixed(2);
   }
 
+  getTotalCost() {
+    this.statistics.forEach((el) => {
+      const {activeMonths, option, currency, cost } = el;
+      if (currency in el) {
+        if (option >= activeMonths) {
+          el.totalCost = cost;
+        } else {
+          const index = (activeMonths - (activeMonths % option)) / option;
+          el.totalCost = index * cost;
+        }
+      }
+    });
+  }
+
   init() {
     this.costPerMonth();
+    this.getTotalCost();
     return this.statistics;
   };
 }

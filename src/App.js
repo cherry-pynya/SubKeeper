@@ -21,9 +21,6 @@ export default function App() {
     dispatch(getCurrency());
   }, []);
 
-  console.log(user)
-  console.log(isloged)
-
   return (
     <Router>
       <Header />
