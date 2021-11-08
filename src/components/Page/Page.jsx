@@ -1,6 +1,6 @@
 export default function Page(props) {
     return (
-        <main className='main' style={{minHeight: '80vh'}}>
+        <main className='main'>
             {props.children}
         </main>
     );

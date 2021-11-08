@@ -9,7 +9,7 @@ export default function SubTable() {
 
   if (inActive.length === 0) {
     return (
-      <section style={{ width: "70%", height: "100%" }}>
+      <section style={{ width: "70%", height: "100%", margin: 0 }}>
         <StatusText text={'активные'} />
         {active.map((el) => (
           <SubTableItem item={el} key={el.id} />
@@ -19,7 +19,7 @@ export default function SubTable() {
   }
 
   return (
-    <section style={{ width: "70%", height: "100%" }}>
+    <section style={{ width: "70%", height: "100%", margin: 0 }}>
       <StatusText text={'активные'} />
       {active.map((el) => (
         <SubTableItem item={el} key={el.id} />

@@ -58,8 +58,8 @@ export default function SubTableItem({ item }) {
           </button>
         </div>
       </div>
-      <div className="sabTable-item-container totalCost inActive">
-        <div style={{width: '100%', textAlign: 'center'}}>
+      <div className="sabTable-item-container totalCost inActive" style={{overflow: 'hidden'}}>
+        <div style={{width: '100%', textAlign: 'center'}} className='some'>
           <span>Всего потрачено: {`${totalCost} ${currency}`}</span>
         </div>
       </div>
