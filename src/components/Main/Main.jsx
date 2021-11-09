@@ -3,7 +3,7 @@ import Page from "../Page/Page";
 import SubTable from "./SabTable/SubTable";
 
 import NotLogedIn from "./NotLogedIn/NotLogedIn";
-import Widget from "./Widget/Widget";
+import Aside from "./Aside/Aside";
 
 export default function Main() {
     const login = useSelector((state) => state.app.login);
@@ -17,7 +17,7 @@ export default function Main() {
     return (
         <Page>
             <SubTable />
-            <Widget />
+            <Aside />
         </Page>
     );
 }

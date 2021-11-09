@@ -84,11 +84,11 @@ export default class Statistics {
 
   costPerMonth() {
     this.data.forEach((el) => {
-        const {cost, option, date, name, currency, id} = el;
+        const {cost, option, date, name, currency, id, active, canceled} = el;
         const costPerMonth = (cost / option).toFixed(2);
         const activeMonths = Math.floor(moment().diff(moment(date), 'months', true));
         const [RUB, USD, EUR] = this.costPerCurrency(costPerMonth, currency)
-        this.addToStats({name, RUB, activeMonths, USD, EUR, id, currency, option, cost});
+        this.addToStats({name, RUB, activeMonths, USD, EUR, id, currency, option, cost, active, canceled});
     });
   };
 

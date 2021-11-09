@@ -9,13 +9,19 @@ import loacaleDate from "../../../utils/localeDate";
 export default function SubTableItem({ item }) {
   const [totalCost, setTotalCost] = useState(0);
   const stats = useSelector((state) => state.app.statistics);
-  let { letter, name, cost, currency, option, date, id } = item;
+  let { letter, name, cost, currency, option, date, id,  active} = item;
   option = optionConverter(option);
   currency = currencyConverter(currency);
   const color = randomColor();
 
   const click = (e) => {
-    e.target.closest('.sabTable-item').querySelector('.totalCost').classList.toggle('inActive');
+    if (e.target.classList.contains('sabTable-item-button') || e.target.classList.contains('material-icons')) {
+      return false;
+    };
+    e.target
+      .closest(".sabTable-item")
+      .querySelector(".totalCost")
+      .classList.toggle("inActive");
   };
 
   useEffect(() => {
@@ -51,15 +57,23 @@ export default function SubTableItem({ item }) {
         </div>
         <div className="sabTable-item-buttons column">
           <button className="sabTable-item-button">
-            <span className="material-icons md-24">highlight_off</span>
+            <span className="material-icons">edit</span>
           </button>
           <button className="sabTable-item-button">
-            <span className="material-icons">edit</span>
+            <span className="material-icons">
+              {active ? 'unpublished' : 'published_with_changes'}
+            </span>
+          </button>
+          <button className="sabTable-item-button">
+            <span className="material-icons md-24">highlight_off</span>
           </button>
         </div>
       </div>
-      <div className="sabTable-item-container totalCost inActive" style={{overflow: 'hidden'}}>
-        <div style={{width: '100%', textAlign: 'center'}} className='some'>
+      <div
+        className="sabTable-item-container totalCost inActive"
+        style={{ overflow: "hidden" }}
+      >
+        <div style={{ width: "100%", textAlign: "center" }} className="some">
           <span>Всего потрачено: {`${totalCost} ${currency}`}</span>
         </div>
       </div>

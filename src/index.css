@@ -4,7 +4,7 @@ html, body {
 
 #root {
   width: 100%;
-  max-width: 1200px;
+  max-width: 1250px;
   display: flex;
   flex-direction: column;
   min-height: 100vh;
@@ -25,6 +25,7 @@ code {
 }
 
 .main {
+  padding: 0 25px 0 25px;
   width: 100%;
   flex-grow: 1;
   display: flex;
@@ -119,12 +120,16 @@ code {
 .widget {
   width: 90%;
   height: 90%;
+  display: flex;
+  flex-direction: column;
+  padding: 20px 0 20px 0;
+  align-items: center;
 }
 
 .footer {
   background-color: #1DA1F2;
   width: 100%;
-  height: 30vh;
+  height: 15vh;
   margin-top: 20px;
   flex-shrink: 0;
 }
@@ -132,6 +137,14 @@ code {
 .header {
   width: 100%;
   height: 10vh;
+  background-color: #1DA1F2;
+}
+
+.widget-cur-selector {
+  width: 80%;
+}
+
+.primary-color {
   background-color: #1DA1F2;
 }
 
