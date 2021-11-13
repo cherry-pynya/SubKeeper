@@ -6,6 +6,7 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import Main from "./components/Main/Main";
 import About from "./components/About/About";
 import Footer from "./components/Footer/Footer";
+import AddForm from "./components/AddForm/AddForm";
 import moment from "moment";
 
 moment().format('L');
@@ -29,6 +30,9 @@ export default function App() {
         </Route>
         <Route path='/about'>
           <About />
+        </Route>
+        <Route path='/add'>
+          <AddForm />
         </Route>
       <Footer />
     </Router>

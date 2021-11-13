@@ -1,4 +1,5 @@
-import { useState, useEffect } from "react";
+import { nanoid } from "@reduxjs/toolkit";
+import { useState } from "react";
 
 export default function CurrencySelector({ select }) {
   const initial = [
@@ -38,7 +39,7 @@ export default function CurrencySelector({ select }) {
   return (
     <div className="btn-group widget-cur-selector" role="group" aria-label="Basic example">
       {data.map((el) => (
-        <CurBtn el={el} click={click} />
+        <CurBtn el={el} click={click} key={nanoid()} />
       ))}
     </div>
   );
