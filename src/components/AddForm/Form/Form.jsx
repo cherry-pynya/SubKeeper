@@ -4,31 +4,45 @@ import TextField from "@mui/material/TextField";
 import LocalizationProvider from "@material-ui/lab/LocalizationProvider/LocalizationProvider";
 import AdapterDateFns from '@material-ui/lab/AdapterDateFns';
 import ruLocale from 'date-fns/locale/ru';
-import moment from "moment";
+import makeSubObject from "../../utils/makeSubObkect";
+import { useHistory } from "react-router";
 
 export default function Form() {
-  const [data, setData] = useState({
+  const initial = {
     name: "",
     cost: "",
-    currency: "",
-    option: "",
+    currency: "RUB",
+    option: "1",
     date: new Date(),
-  });
+  }
+  const history = useHistory();
+  const [data, setData] = useState(initial);
 
   const handleChange = (e) => {
     const { name } = e.target;
     const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value;
     setData({...data, [name]: value});
-    console.log(data)
+
   };
 
   const setDate = (newDate) => {
     setData({...data, date: newDate});
-    console.log(data);
+  };
+
+  const onSubmit = (e) => {
+    e.preventDefault();
+    const a = makeSubObject(data);
+    setData(initial);
+    history.push('/');
+  }
+
+  const cancel = () => {
+    setData(initial);
+    history.push('/');
   };
 
   return (
-    <form className="add-form">
+    <form className="add-form" onSubmit={onSubmit}>
       <div className="mb-3">
         <label htmlFor="name" className="form-label">
           Название:
@@ -114,7 +128,7 @@ export default function Form() {
       </div>
       <div className='row mb-3'>
           <button type='submit' className='btn btn-lg btn-success' style={{margin: '0 20px 0 1rem'}}>Сохранить</button>
-          <button type='button' className='btn btn-danger'>Отмена</button>
+          <button type='button' className='btn btn-danger' onClick={cancel}>Отмена</button>
       </div>
     </form>
   );
