@@ -4,39 +4,40 @@ import { useEffect, useState } from 'react';
 import LoginButton from '../../LoginButton/LoginButton';
 import NavLink from './NavLink/NavLink';
 import { nanoid } from '@reduxjs/toolkit';
-
-const logedOut = [
-    {
-        name: 'Главная',
-        path: '/',
-        active: true,
-    },
-    {
-        name: 'О проекте',
-        path: '/about',
-        active: false,
-    },
-];
-
-const logedIn = [
-    {
-        name: 'Главная',
-        path: '/',
-        active: true,
-    },
-    {
-        name: 'Добавить',
-        path: '/add',
-        active: false,
-    },
-    {
-        name: 'О проекте',
-        path: '/about',
-        active: false,
-    },
-];
+import NavBrand from './NavBrand/Navbrand';
 
 export default function HeaderNav() {
+    const logedOut = [
+        {
+            name: 'Главная',
+            path: '/',
+            active: true,
+        },
+        {
+            name: 'О проекте',
+            path: '/about',
+            active: false,
+        },
+    ];
+    
+    const logedIn = [
+        {
+            name: 'Главная',
+            path: '/',
+            active: true,
+        },
+        {
+            name: 'Добавить',
+            path: '/add',
+            active: false,
+        },
+        {
+            name: 'О проекте',
+            path: '/about',
+            active: false,
+        },
+    ];
+    
     const [items, setItems] = useState(logedOut);
     const login = useSelector((state) => state.app.login);
 
@@ -62,9 +63,9 @@ export default function HeaderNav() {
     };
 
     return(
-        <nav className='navbar navbar-expand-lg navbar-light'>
+        <nav className='navbar navbar-expand-sm navbar-light'>
             <div className='container-fluid'>
-                <Link className="navbar-brand" to='/'>SubKeeper</Link>
+                <NavBrand />
                 <div className="collapse navbar-collapse" id="navbarNav">
                     <ul className='navbar-nav' onClick={navClick}>
                         {items.map((el) => <NavLink item={el} key={nanoid()} />)}

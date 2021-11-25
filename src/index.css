@@ -132,6 +132,9 @@ code {
   height: 15vh;
   margin-top: 20px;
   flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .header {
@@ -147,6 +150,73 @@ code {
 
 .primary-color {
   background-color: #1DA1F2;
+}
+
+.footer-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.address-links-list {
+  list-style: none;
+  display: flex;
+  padding: 0;
+  margin: 0;
+}
+
+.address {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.address-links-list-item {
+  margin-right: 20px;
+}
+
+.address-links-list-link {
+  width: 30px;
+  height: 30px;
+  background-repeat: no-repeat;
+  background-size: 22px;
+  background-color: #1DA1F2;
+  background-position: center;
+  display: flex;
+}
+
+.gmail {
+  background-image: url(./asets/icons/envelope-fill.svg);
+}
+
+.telegram {
+  background-image: url(./asets/icons/telegram.svg);
+}
+
+.github {
+  background-image: url(./asets/icons/github.svg);
+}
+
+.address-links-list-text {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  clip: rect(1px 1px 1px 1px);
+}
+
+.page-not-found {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+.page-not-found h1 {
+  font-size: 8rem;
+  font-family: "Helvetica Neue";
+  padding-bottom: 50px;
+}
+.page-not-found button {
+  font-size: 1.2rem;
 }
 
 /*# sourceMappingURL=index.css.map */

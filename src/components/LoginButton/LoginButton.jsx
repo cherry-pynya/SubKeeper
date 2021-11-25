@@ -1,15 +1,22 @@
 import { useSelector, useDispatch } from 'react-redux';
-import { toggleLogin } from '../../slices/app';
+import { login, logout } from '../../slices/app';
+import { useHistory } from 'react-router';
 
 export default function LoginButton() {
     const dispatch = useDispatch();
-    const login = useSelector((state) => state.app.login);
+    const history = useHistory();
+    const isLoged = useSelector((state) => state.app.login);
 
     const click = () => {
-        dispatch(toggleLogin());
+        if (!isLoged) {
+            dispatch(login());
+        } else {
+            dispatch(logout());
+            history.push('/');
+        }
     };
     
     return (
-        <button type="button" className={login ? 'btn btn-danger' : 'btn btn-success'} onClick={click}>{login ? 'Выйти' : 'Войти'}</button>
+        <button type="button" className={isLoged ? 'btn btn-danger' : 'btn btn-success'} onClick={click}>{isLoged ? 'Выйти' : 'Войти'}</button>
     );
 }

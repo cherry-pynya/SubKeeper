@@ -6,6 +6,8 @@ import {
   GoogleAuthProvider,
   signOut,
   signInWithCredential,
+  setPersistence,
+  browserSessionPersistence
 } from "firebase/auth";
 import { initializeApp } from "firebase/app";
 import { nanoid } from "@reduxjs/toolkit";
@@ -22,7 +24,10 @@ const firebaseApp = initializeApp({
   measurementId: "G-QEF0Z23DDF",
 });
 
+
+
 const initialState = {
+  status: process.env.REACT_APP_FULLFILED,
   login: false,
   currency: [],
   user: {},
@@ -90,21 +95,23 @@ const provider = new GoogleAuthProvider();
 const auth = getAuth();
 
 export const login = createAsyncThunk("login", async () => {
+  /** 
+  await setPersistence(auth, browserSessionPersistence);
   const user = await signInWithPopup(auth, provider);
+  */
+  const user = await setPersistence(auth, browserSessionPersistence).then(()=> {
+    console.log('persistance')
+    return signInWithPopup(auth, provider);
+  });
   return user;
 });
 
-export const loginWithCredentials = createAsyncThunk(
-  "loginWithCredentials",
-  async () => {
-    const { uid } = JSON.stringify(window.localStorage.getItem("userData"));
-    const user = await auth.signInWithCredential(uid);
-    return user;
-  }
-);
-
 export const logout = createAsyncThunk("logout", async () => {
-  const out = await auth.signOut();
+  signOut(auth).then(()=> {
+    console.log('User signed out');
+  }).catch((error) => {
+    console.error(error);
+  })
 });
 
 export const getCurrency = createAsyncThunk("getCurrency", async () => {
@@ -121,18 +128,15 @@ export const app = createSlice({
   name: "app",
   initialState,
   reducers: {
-    toggleLogin: (state) => {
-      state.login = !state.login;
-      const stats = new Statistics(state.mockData, state.currency);
-      state.statistics = stats.init();
-    },
     setStatistics: (state, action) => {
       state.statistics = action.payload;
-    }
+    },
   },
   extraReducers: (builder) => {
     builder
-      .addCase(login.pending, (state) => {})
+      .addCase(login.pending, (state) => {
+        state.status = process.env.REACT_APP_PENDING;
+      })
       .addCase(login.fulfilled, (state, action) => {
         const { user } = action.payload;
         const { accessToken, email, uid } = user;
@@ -140,26 +144,21 @@ export const app = createSlice({
         state.user.email = email;
         state.user.uid = uid;
         state.login = true;
+        const stats = new Statistics(state.mockData, state.currency);
+        state.statistics = stats.init();
         window.localStorage.setItem("userData", JSON.stringify({ uid, email }));
+        state.status = process.env.REACT_APP_FULLFILED;
       })
       .addCase(login.rejected, (state) => {})
       .addCase(logout.pending, (state) => {})
       .addCase(logout.fulfilled, (state) => {
-        state.user = {};
+        state.mockData = [];
         state.login = false;
+        state.user = {};
+        state.statistics = [];
+
       })
       .addCase(logout.rejected, (state) => {})
-      .addCase(loginWithCredentials.pending, (state) => {})
-      .addCase(loginWithCredentials.fulfilled, (state, action) => {
-        const { user } = action.payload;
-        const { accessToken, email, uid } = user;
-        state.user.accessToken = accessToken;
-        state.user.email = email;
-        state.user.uid = uid;
-        state.login = true;
-        window.localStorage.setItem("userData", JSON.stringify({ uid, email }));
-      })
-      .addCase(loginWithCredentials.rejected, (state) => {})
       .addCase(getCurrency.pending, (state) => {
       })
       .addCase(getCurrency.fulfilled, (state, action) => {
@@ -170,6 +169,6 @@ export const app = createSlice({
   },
 });
 
-export const { toggleLogin, setStatistics } = app.actions;
+export const { setStatistics } = app.actions;
 
 export default app.reducer;

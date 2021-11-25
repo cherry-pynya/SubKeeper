@@ -1,7 +1,13 @@
+import FooterBrand from "./FooterBrand/FooterBrand";
+import FooterLinks from "./FooterLinks/FooterLinks";
+
 export default function Footer() {
     return (
         <footer className='footer'>
-            <div style={{width: '100px', height: '100px'}}></div>
+            <div className='footer-container'>
+                <FooterBrand />
+                <FooterLinks />
+            </div>
         </footer>
     );
 }

@@ -14,7 +14,6 @@ export default function StatsWidget() {
   const [cost, setCost] = useState('')
 
   useEffect(() => {
-    console.log(stats)
     setData(getStatsforPie(stats, cur));
     setCost(MonthlyCost(stats, cur));
   }, [])
@@ -24,6 +23,8 @@ export default function StatsWidget() {
     setData(getStatsforPie(stats, id));
     setCost(MonthlyCost(stats, id));
   };
+
+  if (stats.length === 0) return <div style={{display: 'none'}}></div>;
 
   return (
     <div className="widget border">
