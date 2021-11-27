@@ -152,6 +152,10 @@ code {
   background-color: #1DA1F2;
 }
 
+.primary-color-main {
+  color: #1DA1F2;
+}
+
 .footer-container {
   display: flex;
   flex-direction: column;
@@ -216,6 +220,28 @@ code {
   padding-bottom: 50px;
 }
 .page-not-found button {
+  font-size: 1.2rem;
+}
+
+.loader-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+.ops-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+.ops-page h1 {
+  font-family: "Helvetica Neue";
+}
+.ops-page button {
   font-size: 1.2rem;
 }
 

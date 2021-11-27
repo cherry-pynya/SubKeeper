@@ -10,6 +10,7 @@ import {
   browserSessionPersistence
 } from "firebase/auth";
 import { initializeApp } from "firebase/app";
+import { getFirestore, collection, addDoc, getDoc, doc } from "firebase/firestore"
 import { nanoid } from "@reduxjs/toolkit";
 import extractCurrency from "../components/utils/extractCurrency";
 import Statistics from "../components/utils/Statistics";
@@ -30,7 +31,12 @@ const initialState = {
   status: process.env.REACT_APP_FULLFILED,
   login: false,
   currency: [],
-  user: {},
+  user: {
+    accessToken: '',
+    id: '',
+    email: '',
+    accessToken: '',
+  },
   statistics: [],
   mockData: [
     {
@@ -93,6 +99,19 @@ const initialState = {
 
 const provider = new GoogleAuthProvider();
 const auth = getAuth();
+const db = getFirestore();
+
+export const getDataFromDB = createAsyncThunk('getDataFromDB', async (id) =>{
+  console.log(id);
+  const docRef = doc(getFirestore(), 'some/some');
+  const docSnap = await getDoc(docRef);
+  console.log(docSnap.data());
+  if (docSnap.exists()) {
+    return docSnap.data();
+  } else {
+    return [];
+  }
+});
 
 export const login = createAsyncThunk("login", async () => {
   /** 
@@ -100,7 +119,6 @@ export const login = createAsyncThunk("login", async () => {
   const user = await signInWithPopup(auth, provider);
   */
   const user = await setPersistence(auth, browserSessionPersistence).then(()=> {
-    console.log('persistance')
     return signInWithPopup(auth, provider);
   });
   return user;
@@ -131,6 +149,9 @@ export const app = createSlice({
     setStatistics: (state, action) => {
       state.statistics = action.payload;
     },
+    setStatusFullfiled: (state) => {
+      state.status = process.env.REACT_APP_FULLFILED;
+    }
   },
   extraReducers: (builder) => {
     builder
@@ -139,17 +160,19 @@ export const app = createSlice({
       })
       .addCase(login.fulfilled, (state, action) => {
         const { user } = action.payload;
-        const { accessToken, email, uid } = user;
-        state.user.accessToken = accessToken;
+        const { displayName } = user.providerData[0];
+        const { email, uid } = user;
         state.user.email = email;
-        state.user.uid = uid;
+        state.user.id = uid;
+        state.user.name = displayName;
         state.login = true;
         const stats = new Statistics(state.mockData, state.currency);
         state.statistics = stats.init();
-        window.localStorage.setItem("userData", JSON.stringify({ uid, email }));
         state.status = process.env.REACT_APP_FULLFILED;
       })
-      .addCase(login.rejected, (state) => {})
+      .addCase(login.rejected, (state) => {
+        state.status = process.env.REACT_APP_REJECTED;
+      })
       .addCase(logout.pending, (state) => {})
       .addCase(logout.fulfilled, (state) => {
         state.mockData = [];
@@ -166,9 +189,20 @@ export const app = createSlice({
       })
       .addCase(getCurrency.rejected, (state) => {
       })
+      .addCase(getDataFromDB.pending, (state) => {
+        state.status = process.env.REACT_APP_PENDING;
+      })
+      .addCase(getDataFromDB.fulfilled, (state, action) => {
+        state.mockData = action.payload;
+        console.log('worked');
+      })
+      .addCase(getDataFromDB.rejected, (state) => {
+        console.log('data not find in db!')
+        state.status = process.env.REACT_APP_REJECTED;
+      })
   },
 });
 
-export const { setStatistics } = app.actions;
+export const { setStatistics, setStatusFullfiled } = app.actions;
 
 export default app.reducer;

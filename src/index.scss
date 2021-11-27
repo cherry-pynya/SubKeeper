@@ -6,6 +6,13 @@ $primary-color: #1DA1F2;
   transition: all 0.4s ease-in-out;
 }
 
+@mixin singleElemetPage() {
+  @include column();
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
 @mixin column() {
   display: flex;
   flex-direction: column;
@@ -165,6 +172,10 @@ code {
   background-color: $primary-color;
 }
 
+.primary-color-main {
+  color: $primary-color;
+}
+
 .footer-container {
   @include column();
 }
@@ -216,15 +227,27 @@ code {
 }
 
 .page-not-found {
-  @include column();
-  align-items: center;
-  justify-content: center;
-  width: 100%;
+  @include singleElemetPage();
 
   h1 {
     font-size: 8rem;
     font-family: 'Helvetica Neue';
     padding-bottom: 50px;
+  }
+
+  button {
+    font-size: 1.2rem;
+  }
+}
+
+.loader-page {
+  @include singleElemetPage();
+}
+
+.ops-page {
+  @include singleElemetPage();
+  h1 {
+    font-family: 'Helvetica Neue';
   }
 
   button {

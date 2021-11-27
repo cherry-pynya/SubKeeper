@@ -1,3 +1,4 @@
+import { nanoid } from "@reduxjs/toolkit";
 import FooterLink from "./FooterLink/FooterLink";
 
 export default function FooterLinks() {
@@ -18,7 +19,7 @@ export default function FooterLinks() {
     return (
         <address className='address'>
             <ul className='address-links-list'>
-                {links.map((el) => <FooterLink item={el} />)}
+                {links.map((el) => <FooterLink item={el} key={nanoid()}/>)}
             </ul>
         </address>
     );
