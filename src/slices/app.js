@@ -10,7 +10,7 @@ import {
   browserSessionPersistence
 } from "firebase/auth";
 import { initializeApp } from "firebase/app";
-import { getFirestore, collection, addDoc, getDoc, doc } from "firebase/firestore"
+import { getFirestore, collection, addDoc, setDoc, getDoc, doc, updateDoc } from "firebase/firestore"
 import { nanoid } from "@reduxjs/toolkit";
 import extractCurrency from "../components/utils/extractCurrency";
 import Statistics from "../components/utils/Statistics";
@@ -38,78 +38,53 @@ const initialState = {
     accessToken: '',
   },
   statistics: [],
-  mockData: [
-    {
-      id: nanoid(),
-      name: "kinopoisk",
-      cost: 169,
-      currency: "RUB",
-      option: 1,
-      date: "20191011",
-      letter: "k",
-      active: true,
-      canceled: null,
-    },
-    {
-      id: nanoid(),
-      name: "ivy",
-      cost: 500,
-      currency: "RUB",
-      option: 3,
-      date: "20200505",
-      letter: "i",
-      active: true,
-      canceled: null,
-    },
-    {
-      id: nanoid(),
-      name: "psn",
-      cost: 2500,
-      currency: "RUB",
-      option: 6,
-      date: "20210101",
-      letter: "p",
-      active: false,
-      canceled: '20120613',
-    },
-    {
-      id: nanoid(),
-      name: "photoshop",
-      cost: 100,
-      currency: "USD",
-      option: 12,
-      date: "20210101",
-      letter: "p",
-      active: false,
-      canceled: '20120613',
-    },
-    {
-      id: nanoid(),
-      name: "spotify",
-      cost: 1000,
-      currency: "RUB",
-      option: 12,
-      date: "20170101",
-      letter: "s",
-      active: true,
-      canceled: null,
-    },
-  ],
+  data: [],
 };
 
 const provider = new GoogleAuthProvider();
 const auth = getAuth();
 const db = getFirestore();
 
-export const getDataFromDB = createAsyncThunk('getDataFromDB', async (id) =>{
-  console.log(id);
-  const docRef = doc(getFirestore(), 'some/some');
+export const getDataFromDB = createAsyncThunk('getDataFromDB', async () =>{
+  const docRef = doc(db, 'state', 'CA');
   const docSnap = await getDoc(docRef);
   console.log(docSnap.data());
   if (docSnap.exists()) {
     return docSnap.data();
   } else {
     return [];
+  }
+});
+
+export const initUserInDB = createAsyncThunk('initUserInDB', async (id) =>{
+  const docRef = doc(db, 'users', id);
+  const docSnap = await getDoc(docRef);
+  if (docSnap.exists()) {
+    return docSnap.data();
+  } else {
+    await setDoc(docRef, {data: []});
+    return [];
+  }
+});
+
+export const putDataToDB = createAsyncThunk('putDataToDB', async (id, data) => {
+  try {
+    await setDoc(doc(db, 'users', id), {
+      data: data
+    });
+  } catch(e) {
+    console.error(e);
+  }
+});
+
+export const addItemToDB = createAsyncThunk('addItemToDB', async (id, data) => {
+  try {
+    const docRef = doc(db, 'users', id);
+    await updateDoc(docRef, {
+      data: data,
+    });
+  } catch(e) {
+    console.error(e);
   }
 });
 
@@ -151,6 +126,12 @@ export const app = createSlice({
     },
     setStatusFullfiled: (state) => {
       state.status = process.env.REACT_APP_FULLFILED;
+    },
+    addItemToData: (state, action) => {
+      state.data.push(action.payload);
+    },
+    setData: (state, action) => {
+      state.data = action.payload.data;
     }
   },
   extraReducers: (builder) => {
@@ -166,8 +147,6 @@ export const app = createSlice({
         state.user.id = uid;
         state.user.name = displayName;
         state.login = true;
-        const stats = new Statistics(state.mockData, state.currency);
-        state.statistics = stats.init();
         state.status = process.env.REACT_APP_FULLFILED;
       })
       .addCase(login.rejected, (state) => {
@@ -189,12 +168,42 @@ export const app = createSlice({
       })
       .addCase(getCurrency.rejected, (state) => {
       })
+      .addCase(putDataToDB.pending, (state) => {
+      })
+      .addCase(putDataToDB.fulfilled, (state, action) => {
+        console.log('worked')
+      })
+      .addCase(putDataToDB.rejected, (state) => {
+
+      })
+      .addCase(initUserInDB.pending, (state) => {
+      })
+      .addCase(initUserInDB.fulfilled, (state, action) => {
+        state.data = action.payload.data;
+        const stats = new Statistics(state.data, state.currency);
+        state.statistics = stats.init();
+        console.log('Initial user data fetched from db!')
+      })
+      .addCase(initUserInDB.rejected, (state) => {
+
+      })
+      .addCase(addItemToDB.pending, (state) => {
+      })
+      .addCase(addItemToDB.fulfilled, (state) => {
+        const stats = new Statistics(state.data, state.currency);
+        state.statistics = stats.init();
+        console.log('Item added to db!');
+      })
+      .addCase(addItemToDB.rejected, (state) => {
+
+      })
       .addCase(getDataFromDB.pending, (state) => {
         state.status = process.env.REACT_APP_PENDING;
       })
       .addCase(getDataFromDB.fulfilled, (state, action) => {
         state.mockData = action.payload;
-        console.log('worked');
+        console.log('Data fetched from db!');
+        state.status = process.env.REACT_APP_FULLFILED;
       })
       .addCase(getDataFromDB.rejected, (state) => {
         console.log('data not find in db!')
@@ -203,6 +212,6 @@ export const app = createSlice({
   },
 });
 
-export const { setStatistics, setStatusFullfiled } = app.actions;
+export const { setStatistics, setStatusFullfiled, addItemToData, setData } = app.actions;
 
 export default app.reducer;

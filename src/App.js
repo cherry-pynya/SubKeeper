@@ -1,6 +1,6 @@
 import { useSelector, useDispatch } from "react-redux";
 import { useEffect } from "react";
-import { getCurrency } from "./slices/app";
+import { getCurrency, putDataToDB } from "./slices/app";
 import Header from "./components/Header/Header";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import Main from "./components/Main/Main";
@@ -11,6 +11,7 @@ import PageNotFound from "./components/PageNotFound/PageNotFound";
 import Loader from "./components/Loader/Loader";
 import OpsPage from "./components/OpsPage/OpsPage";
 import moment from "moment";
+
 
 moment().format("L");
 moment.locale("ru");

@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import DatePicker from '@material-ui/lab/DatePicker';
 import TextField from "@mui/material/TextField";
 import LocalizationProvider from "@material-ui/lab/LocalizationProvider/LocalizationProvider";
@@ -6,8 +7,12 @@ import AdapterDateFns from '@material-ui/lab/AdapterDateFns';
 import ruLocale from 'date-fns/locale/ru';
 import makeSubObject from "../../utils/makeSubObkect";
 import { useHistory } from "react-router";
+import { addItemToData, addItemToDB } from '../../../slices/app';
 
 export default function Form() {
+  const dispatch = useDispatch();
+  const userID = useSelector((state) => state.app.user.id);
+  const userData = useSelector((state) => state.app.data);
   const initial = {
     name: "",
     cost: "",
@@ -22,7 +27,6 @@ export default function Form() {
     const { name } = e.target;
     const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value;
     setData({...data, [name]: value});
-
   };
 
   const setDate = (newDate) => {
@@ -31,7 +35,9 @@ export default function Form() {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    const a = makeSubObject(data);
+    const item = makeSubObject(data);
+    dispatch(addItemToData(item));
+    dispatch(addItemToDB(userID, userData));
     setData(initial);
     history.push('/');
   }
