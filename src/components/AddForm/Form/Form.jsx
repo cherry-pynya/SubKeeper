@@ -7,19 +7,22 @@ import AdapterDateFns from '@material-ui/lab/AdapterDateFns';
 import ruLocale from 'date-fns/locale/ru';
 import makeSubObject from "../../utils/makeSubObkect";
 import { useHistory } from "react-router";
-import { addItemToData, addItemToDB } from '../../../slices/app';
+import { addItemToDB } from '../../../slices/app';
 
 export default function Form() {
   const dispatch = useDispatch();
   const userID = useSelector((state) => state.app.user.id);
+  const currency = useSelector((state) => state.app.currency);
   const userData = useSelector((state) => state.app.data);
+
   const initial = {
     name: "",
     cost: "",
     currency: "RUB",
     option: "1",
     date: new Date(),
-  }
+  };
+
   const history = useHistory();
   const [data, setData] = useState(initial);
 
@@ -34,10 +37,12 @@ export default function Form() {
   };
 
   const onSubmit = (e) => {
+    if (data.cost === 0 || data.name === '') {
+      return false;
+    };
     e.preventDefault();
-    const item = makeSubObject(data);
-    dispatch(addItemToData(item));
-    dispatch(addItemToDB(userID, userData));
+    const item = makeSubObject(data, userID);
+    dispatch(addItemToDB(item));
     setData(initial);
     history.push('/');
   }

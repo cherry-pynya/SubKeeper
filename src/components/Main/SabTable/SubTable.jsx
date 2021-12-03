@@ -2,7 +2,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { useEffect } from "react";
 import SubTableItem from "./SubTableItem/SubTableItem";
 import StatusText from "./StatusText";
-import { getDataFromDB, putDataToDB, initUserInDB } from '../../../slices/app';
+import { initUserInDB } from '../../../slices/app';
 
 export default function SubTable() {
   const dispatch = useDispatch();

@@ -5,13 +5,18 @@ import {
   signInWithPopup,
   GoogleAuthProvider,
   signOut,
-  signInWithCredential,
   setPersistence,
   browserSessionPersistence
 } from "firebase/auth";
 import { initializeApp } from "firebase/app";
-import { getFirestore, collection, addDoc, setDoc, getDoc, doc, updateDoc } from "firebase/firestore"
-import { nanoid } from "@reduxjs/toolkit";
+import { 
+  getFirestore, 
+  setDoc, 
+  doc, 
+  collection, 
+  query, 
+  where, 
+  getDocs } from "firebase/firestore"
 import extractCurrency from "../components/utils/extractCurrency";
 import Statistics from "../components/utils/Statistics";
 
@@ -45,62 +50,35 @@ const provider = new GoogleAuthProvider();
 const auth = getAuth();
 const db = getFirestore();
 
-export const getDataFromDB = createAsyncThunk('getDataFromDB', async () =>{
-  const docRef = doc(db, 'state', 'CA');
-  const docSnap = await getDoc(docRef);
-  console.log(docSnap.data());
-  if (docSnap.exists()) {
-    return docSnap.data();
-  } else {
-    return [];
-  }
+export const initUserInDB = createAsyncThunk('initUserInDB', async (id) => {
+  const q = query(collection(db, "subs"), where("user", "==", id));
+  const querySnapshot = await getDocs(q);
+  const arr = [];
+  querySnapshot.forEach((doc) => {
+    arr.push(doc.data());
+  });
+  return arr;
 });
 
-export const initUserInDB = createAsyncThunk('initUserInDB', async (id) =>{
-  const docRef = doc(db, 'users', id);
-  const docSnap = await getDoc(docRef);
-  if (docSnap.exists()) {
-    return docSnap.data();
-  } else {
-    await setDoc(docRef, {data: []});
-    return [];
-  }
-});
-
-export const putDataToDB = createAsyncThunk('putDataToDB', async (id, data) => {
+export const addItemToDB = createAsyncThunk('addItemToDB', async (item) => {
+  const { id } = item;
   try {
-    await setDoc(doc(db, 'users', id), {
-      data: data
-    });
-  } catch(e) {
-    console.error(e);
-  }
-});
-
-export const addItemToDB = createAsyncThunk('addItemToDB', async (id, data) => {
-  try {
-    const docRef = doc(db, 'users', id);
-    await updateDoc(docRef, {
-      data: data,
-    });
-  } catch(e) {
+    const docRef = doc(db, 'subs', id);
+    await setDoc(docRef, item);
+  } catch (e) {
     console.error(e);
   }
 });
 
 export const login = createAsyncThunk("login", async () => {
-  /** 
-  await setPersistence(auth, browserSessionPersistence);
-  const user = await signInWithPopup(auth, provider);
-  */
-  const user = await setPersistence(auth, browserSessionPersistence).then(()=> {
+  const user = await setPersistence(auth, browserSessionPersistence).then(() => {
     return signInWithPopup(auth, provider);
   });
   return user;
 });
 
 export const logout = createAsyncThunk("logout", async () => {
-  signOut(auth).then(()=> {
+  signOut(auth).then(() => {
     console.log('User signed out');
   }).catch((error) => {
     console.error(error);
@@ -132,7 +110,10 @@ export const app = createSlice({
     },
     setData: (state, action) => {
       state.data = action.payload.data;
-    }
+    },
+    setStats: (state, action) => {
+      state.statistics = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -152,7 +133,7 @@ export const app = createSlice({
       .addCase(login.rejected, (state) => {
         state.status = process.env.REACT_APP_REJECTED;
       })
-      .addCase(logout.pending, (state) => {})
+      .addCase(logout.pending, (state) => { })
       .addCase(logout.fulfilled, (state) => {
         state.mockData = [];
         state.login = false;
@@ -160,7 +141,7 @@ export const app = createSlice({
         state.statistics = [];
 
       })
-      .addCase(logout.rejected, (state) => {})
+      .addCase(logout.rejected, (state) => { })
       .addCase(getCurrency.pending, (state) => {
       })
       .addCase(getCurrency.fulfilled, (state, action) => {
@@ -168,18 +149,10 @@ export const app = createSlice({
       })
       .addCase(getCurrency.rejected, (state) => {
       })
-      .addCase(putDataToDB.pending, (state) => {
-      })
-      .addCase(putDataToDB.fulfilled, (state, action) => {
-        console.log('worked')
-      })
-      .addCase(putDataToDB.rejected, (state) => {
-
-      })
       .addCase(initUserInDB.pending, (state) => {
       })
       .addCase(initUserInDB.fulfilled, (state, action) => {
-        state.data = action.payload.data;
+        state.data = action.payload;
         const stats = new Statistics(state.data, state.currency);
         state.statistics = stats.init();
         console.log('Initial user data fetched from db!')
@@ -189,29 +162,15 @@ export const app = createSlice({
       })
       .addCase(addItemToDB.pending, (state) => {
       })
-      .addCase(addItemToDB.fulfilled, (state) => {
-        const stats = new Statistics(state.data, state.currency);
-        state.statistics = stats.init();
+      .addCase(addItemToDB.fulfilled, (state, action) => {
         console.log('Item added to db!');
       })
       .addCase(addItemToDB.rejected, (state) => {
 
       })
-      .addCase(getDataFromDB.pending, (state) => {
-        state.status = process.env.REACT_APP_PENDING;
-      })
-      .addCase(getDataFromDB.fulfilled, (state, action) => {
-        state.mockData = action.payload;
-        console.log('Data fetched from db!');
-        state.status = process.env.REACT_APP_FULLFILED;
-      })
-      .addCase(getDataFromDB.rejected, (state) => {
-        console.log('data not find in db!')
-        state.status = process.env.REACT_APP_REJECTED;
-      })
   },
 });
 
-export const { setStatistics, setStatusFullfiled, addItemToData, setData } = app.actions;
+export const { setStatistics, setStatusFullfiled, addItemToData, setData, setStats } = app.actions;
 
 export default app.reducer;
