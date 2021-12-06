@@ -16,7 +16,8 @@ import {
   collection, 
   query, 
   where, 
-  getDocs } from "firebase/firestore"
+  getDocs,
+  deleteDoc  } from "firebase/firestore"
 import extractCurrency from "../components/utils/extractCurrency";
 import Statistics from "../components/utils/Statistics";
 
@@ -50,6 +51,7 @@ const provider = new GoogleAuthProvider();
 const auth = getAuth();
 const db = getFirestore();
 
+//проверяет есть ли в базе подписки по id пользователя firebase
 export const initUserInDB = createAsyncThunk('initUserInDB', async (id) => {
   const q = query(collection(db, "subs"), where("user", "==", id));
   const querySnapshot = await getDocs(q);
@@ -60,6 +62,13 @@ export const initUserInDB = createAsyncThunk('initUserInDB', async (id) => {
   return arr;
 });
 
+//удалить подписку их базы
+export const deleteFromDB = createAsyncThunk('deleteFromDB', async (id) => {
+  const docRef = doc(db, 'subs', id);
+  await deleteDoc(docRef);
+});
+
+//добавляет подписку в базу или редактирует уже существующуу, просто заменяя ее
 export const addItemToDB = createAsyncThunk('addItemToDB', async (item) => {
   const { id } = item;
   try {
@@ -161,12 +170,24 @@ export const app = createSlice({
 
       })
       .addCase(addItemToDB.pending, (state) => {
+        state.status = process.env.REACT_APP_PENDING;
       })
-      .addCase(addItemToDB.fulfilled, (state, action) => {
+      .addCase(addItemToDB.fulfilled, (state) => {
+        state.status = process.env.REACT_APP_FULLFILED;
         console.log('Item added to db!');
       })
       .addCase(addItemToDB.rejected, (state) => {
-
+        state.status = process.env.REACT_APP_REJECTED;
+      })
+      .addCase(deleteFromDB.pending, (state) => {
+        state.status = process.env.REACT_APP_PENDING;
+      })
+      .addCase(deleteFromDB.fulfilled, (state) => {
+        console.log('Item deleted from DB!');
+        state.status = process.env.REACT_APP_FULLFILED;
+      })
+      .addCase(deleteFromDB.rejected, (state) => {
+        state.status = process.env.REACT_APP_REJECTED;
       })
   },
 });
