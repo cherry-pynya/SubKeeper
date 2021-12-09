@@ -31,7 +31,6 @@ export default function SubTableItem({ item }) {
   };
 
   useEffect(() => {
-    console.log(stats);
     const el = stats.find((el) => el.id === id);
     setTotalCost(el.totalCost);
   }, []);

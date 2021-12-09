@@ -1,5 +1,6 @@
 import currencyConverter from './currensyConverter';
 
+//текстовый вывод всей потраченой на подписку суммы для виджета подписки
 export default function MonthlyCost(stats, cur) {
     let index = 0;
     stats.forEach((el) => {

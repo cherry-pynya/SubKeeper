@@ -1,3 +1,4 @@
+//из файлы статисики достает данные для диаграммы
 export default function getStatsforPie(stats, id) {
     const arr = [['Currency', 'Cost']];
     stats.forEach((el) => {

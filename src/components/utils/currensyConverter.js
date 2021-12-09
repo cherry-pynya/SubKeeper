@@ -1,3 +1,4 @@
+//возвращает юникод нужной валюты
 export default function currencyConverter(str) {
     switch(str) {
         case 'RUB':

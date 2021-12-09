@@ -123,6 +123,10 @@ export const app = createSlice({
     setStats: (state, action) => {
       state.statistics = action.payload;
     },
+    updateStats: (state) => {
+      const stats = new Statistics(state.data, state.currency);
+      state.statistics = stats.init();
+    }
   },
   extraReducers: (builder) => {
     builder
@@ -162,9 +166,9 @@ export const app = createSlice({
       })
       .addCase(initUserInDB.fulfilled, (state, action) => {
         state.data = action.payload;
-        const stats = new Statistics(state.data, state.currency);
+        const stats = new Statistics(action.payload, state.currency);
         state.statistics = stats.init();
-        console.log('Initial user data fetched from db!')
+        console.log('User data fetched from db!')
       })
       .addCase(initUserInDB.rejected, (state) => {
 
@@ -177,12 +181,15 @@ export const app = createSlice({
         console.log('Item added to db!');
       })
       .addCase(addItemToDB.rejected, (state) => {
+        initUserInDB(state.user.id);
+        console.log('Item added to DB!');
         state.status = process.env.REACT_APP_REJECTED;
       })
       .addCase(deleteFromDB.pending, (state) => {
         state.status = process.env.REACT_APP_PENDING;
       })
       .addCase(deleteFromDB.fulfilled, (state) => {
+        initUserInDB(state.user.id);
         console.log('Item deleted from DB!');
         state.status = process.env.REACT_APP_FULLFILED;
       })
@@ -192,6 +199,6 @@ export const app = createSlice({
   },
 });
 
-export const { setStatistics, setStatusFullfiled, addItemToData, setData, setStats } = app.actions;
+export const { setStatistics, setStatusFullfiled, addItemToData, setData, setStats, updateStats } = app.actions;
 
 export default app.reducer;

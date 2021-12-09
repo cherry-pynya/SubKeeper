@@ -1,3 +1,4 @@
+//помогает доставть курс валюты из объекта, который приходит от сервера
 export default function extractCurrency(data) {
     const arr = [];
     for (let key in data.Valute) {

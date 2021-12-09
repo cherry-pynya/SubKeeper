@@ -1,3 +1,4 @@
+//текстовый вывод опции подписки для виджета подписки
 export default function optionConverter(option) {
     switch(option) {
         case 1:

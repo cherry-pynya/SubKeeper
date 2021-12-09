@@ -1,12 +1,14 @@
 import { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import CurrencySelector from "./CurrencySelector/CurrencySelector";
 import PieChart from "./PieChart/PieChart";
 import getStatsforPie from '../../../utils/getStatsforPie';
 import MonthlyCost from '../../../utils/MonthlyCost';
 import WidgetText from "./WidgetText/WidgetText";
+import { updateStats } from "../../../../slices/app";
 
 export default function StatsWidget() {
+  const dispatch = useDispatch();
   const stats = useSelector((state) => state.app.statistics);
 
   const [data, setData] = useState([]);
@@ -14,6 +16,8 @@ export default function StatsWidget() {
   const [cost, setCost] = useState('')
 
   useEffect(() => {
+    console.log(stats);
+    dispatch(updateStats());
     setData(getStatsforPie(stats, cur));
     setCost(MonthlyCost(stats, cur));
   }, [])

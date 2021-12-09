@@ -1,6 +1,7 @@
 import { nanoid } from "@reduxjs/toolkit";
 import loacaleDate from "./localeDate";
 
+//получает айди юзера, объект из формы и дополняет его для последующей отрпавки в базу
 export default function makeSubObject(obj, user) {
     const { name, option } = obj;
     obj.canceled = '';
