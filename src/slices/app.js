@@ -146,15 +146,22 @@ export const app = createSlice({
       .addCase(login.rejected, (state) => {
         state.status = process.env.REACT_APP_REJECTED;
       })
-      .addCase(logout.pending, (state) => { })
-      .addCase(logout.fulfilled, (state) => {
-        state.mockData = [];
-        state.login = false;
-        state.user = {};
-        state.statistics = [];
-
+      .addCase(logout.pending, (state) => {
+        state.status = process.env.REACT_APP_PENDING;
       })
-      .addCase(logout.rejected, (state) => { })
+      .addCase(logout.fulfilled, (state) => {
+        state.login = false;
+        state.user = {
+          accessToken: '',
+          id: '',
+          email: '',
+          accessToken: '',
+        };
+        state.status = process.env.REACT_APP_FULLFILED;
+      })
+      .addCase(logout.rejected, (state) => {
+        state.status = process.env.REACT_APP_REJECTED;
+      })
       .addCase(getCurrency.pending, (state) => {
       })
       .addCase(getCurrency.fulfilled, (state, action) => {
@@ -166,7 +173,7 @@ export const app = createSlice({
       })
       .addCase(initUserInDB.fulfilled, (state, action) => {
         state.data = action.payload;
-        const stats = new Statistics(action.payload, state.currency);
+        const stats = new Statistics(state.data, state.currency);
         state.statistics = stats.init();
         console.log('User data fetched from db!')
       })
@@ -181,7 +188,6 @@ export const app = createSlice({
         console.log('Item added to db!');
       })
       .addCase(addItemToDB.rejected, (state) => {
-        initUserInDB(state.user.id);
         console.log('Item added to DB!');
         state.status = process.env.REACT_APP_REJECTED;
       })
@@ -189,7 +195,6 @@ export const app = createSlice({
         state.status = process.env.REACT_APP_PENDING;
       })
       .addCase(deleteFromDB.fulfilled, (state) => {
-        initUserInDB(state.user.id);
         console.log('Item deleted from DB!');
         state.status = process.env.REACT_APP_FULLFILED;
       })
