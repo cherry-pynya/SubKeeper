@@ -52,7 +52,7 @@ const auth = getAuth();
 const db = getFirestore();
 
 //проверяет есть ли в базе подписки по id пользователя firebase
-export const initUserInDB = createAsyncThunk('initUserInDB', async (id) => {
+async function getDataFromDB(id) {
   const q = query(collection(db, "subs"), where("user", "==", id));
   const querySnapshot = await getDocs(q);
   const arr = [];
@@ -60,30 +60,35 @@ export const initUserInDB = createAsyncThunk('initUserInDB', async (id) => {
     arr.push(doc.data());
   });
   return arr;
-});
+};
 
 //удалить подписку их базы
-export const deleteFromDB = createAsyncThunk('deleteFromDB', async (id) => {
+export const deleteFromDB = createAsyncThunk('deleteFromDB', async (object) => {
+  const { id, userID } = object;
   const docRef = doc(db, 'subs', id);
   await deleteDoc(docRef);
+  const subs = await getDataFromDB(userID);
+  return subs;
 });
 
 //добавляет подписку в базу или редактирует уже существующуу, просто заменяя ее
-export const addItemToDB = createAsyncThunk('addItemToDB', async (item) => {
+export const addItemToDB = createAsyncThunk('addItemToDB', async (object) => {
+  const { item, userID } = object;
   const { id } = item;
-  try {
-    const docRef = doc(db, 'subs', id);
-    await setDoc(docRef, item);
-  } catch (e) {
-    console.error(e);
-  }
+  const docRef = doc(db, 'subs', id);
+  await setDoc(docRef, item);
+  const subs = await getDataFromDB(userID);
+  return subs;
 });
 
 export const login = createAsyncThunk("login", async () => {
-  const user = await setPersistence(auth, browserSessionPersistence).then(() => {
+  const userData = await setPersistence(auth, browserSessionPersistence).then(() => {
     return signInWithPopup(auth, provider);
   });
-  return user;
+  const { user } = userData;
+  const { uid } = user;
+  const subs = await getDataFromDB(uid);
+  return {userData, subs};
 });
 
 export const logout = createAsyncThunk("logout", async () => {
@@ -134,13 +139,17 @@ export const app = createSlice({
         state.status = process.env.REACT_APP_PENDING;
       })
       .addCase(login.fulfilled, (state, action) => {
-        const { user } = action.payload;
+        const { userData, subs } = action.payload;
+        const { user } = userData;
         const { displayName } = user.providerData[0];
         const { email, uid } = user;
         state.user.email = email;
         state.user.id = uid;
         state.user.name = displayName;
         state.login = true;
+        state.data = subs;
+        const stats = new Statistics(state.data, state.currency);
+        state.statistics = stats.init();
         state.status = process.env.REACT_APP_FULLFILED;
       })
       .addCase(login.rejected, (state) => {
@@ -169,32 +178,26 @@ export const app = createSlice({
       })
       .addCase(getCurrency.rejected, (state) => {
       })
-      .addCase(initUserInDB.pending, (state) => {
-      })
-      .addCase(initUserInDB.fulfilled, (state, action) => {
-        state.data = action.payload;
-        const stats = new Statistics(state.data, state.currency);
-        state.statistics = stats.init();
-        console.log('User data fetched from db!')
-      })
-      .addCase(initUserInDB.rejected, (state) => {
-
-      })
       .addCase(addItemToDB.pending, (state) => {
         state.status = process.env.REACT_APP_PENDING;
       })
-      .addCase(addItemToDB.fulfilled, (state) => {
+      .addCase(addItemToDB.fulfilled, (state, action) => {
+        state.data = action.payload;
+        const stats = new Statistics(action.payload, state.currency);
+        state.statistics = stats.init();
         state.status = process.env.REACT_APP_FULLFILED;
         console.log('Item added to db!');
       })
       .addCase(addItemToDB.rejected, (state) => {
-        console.log('Item added to DB!');
         state.status = process.env.REACT_APP_REJECTED;
       })
       .addCase(deleteFromDB.pending, (state) => {
         state.status = process.env.REACT_APP_PENDING;
       })
-      .addCase(deleteFromDB.fulfilled, (state) => {
+      .addCase(deleteFromDB.fulfilled, (state, action) => {
+        state.data = action.payload;
+        const stats = new Statistics(action.payload, state.currency);
+        state.statistics = stats.init();
         console.log('Item deleted from DB!');
         state.status = process.env.REACT_APP_FULLFILED;
       })

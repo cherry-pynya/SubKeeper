@@ -16,7 +16,6 @@ export default function StatsWidget() {
   const [cost, setCost] = useState('')
 
   useEffect(() => {
-    console.log(stats);
     dispatch(updateStats());
     setData(getStatsforPie(stats, cur));
     setCost(MonthlyCost(stats, cur));

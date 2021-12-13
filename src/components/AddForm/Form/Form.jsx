@@ -12,8 +12,6 @@ import { addItemToDB } from '../../../slices/app';
 export default function Form() {
   const dispatch = useDispatch();
   const userID = useSelector((state) => state.app.user.id);
-  const currency = useSelector((state) => state.app.currency);
-  const userData = useSelector((state) => state.app.data);
 
   const initial = {
     name: "",
@@ -42,7 +40,7 @@ export default function Form() {
     };
     e.preventDefault();
     const item = makeSubObject(data, userID);
-    dispatch(addItemToDB(item));
+    dispatch(addItemToDB({item, userID}));
     setData(initial);
     history.push('/');
   }

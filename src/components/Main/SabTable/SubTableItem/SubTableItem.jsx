@@ -18,6 +18,7 @@ export default function SubTableItem({ item }) {
   option = optionConverter(option);
   currency = currencyConverter(currency);
   const color = randomColor();
+  const userID = useSelector((state) => state.app.user.id);
 
   const click = (e) => {
     //отвечает за появление суммы подписки по клику на нее
@@ -31,15 +32,13 @@ export default function SubTableItem({ item }) {
   };
 
   useEffect(() => {
-    console.log('stats', stats)
     const el = stats.find((el) => el.id === id);
-    console.log('el', stats);
     setTotalCost(el.totalCost);
   }, []);
 
   const deleteItem = () => {
     // удаляет подписку из базы
-    dispatch(deleteFromDB(id));
+    dispatch(deleteFromDB({id, userID}));
     history.push('/');
   };
 
