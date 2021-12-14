@@ -5,7 +5,8 @@ const initialState = {
     cost: "",
     currency: "RUB",
     option: "1",
-    date: new Date(),
+    date: new Date().toString(),
+    newItem: true,
 }
 
 export const form = createSlice({
@@ -16,12 +17,7 @@ export const form = createSlice({
             state = initialState;
         },
         editingForm: (state, action) => {
-            const {name, cost, currency, option, date} = action.payload;
-            state.cost = cost;
-            state.name = name;
-            state.currency = currency;
-            state.naoptionme = option;
-            state.date = new Date(date);
+            state = action.payload;
         }
     }
 });

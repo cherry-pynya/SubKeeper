@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import DatePicker from '@material-ui/lab/DatePicker';
 import TextField from "@mui/material/TextField";
@@ -8,20 +8,14 @@ import ruLocale from 'date-fns/locale/ru';
 import makeSubObject from "../../utils/makeSubObkect";
 import { useHistory } from "react-router";
 import { addItemToDB } from '../../../slices/app';
+import { resetForm } from "../../../slices/form";
 
 export default function Form() {
   const dispatch = useDispatch();
   const userID = useSelector((state) => state.app.user.id);
-
-  const initial = {
-    name: "",
-    cost: "",
-    currency: "RUB",
-    option: "1",
-    date: new Date(),
-  };
-
+  const initial = useSelector((state) => state.form);
   const history = useHistory();
+  console.log(initial)
   const [data, setData] = useState(initial);
 
   const handleChange = (e) => {
@@ -31,6 +25,7 @@ export default function Form() {
   };
 
   const setDate = (newDate) => {
+    console.log(newDate)
     setData({...data, date: newDate});
   };
 
@@ -39,14 +34,15 @@ export default function Form() {
       return false;
     };
     e.preventDefault();
+    console.log(data);
     const item = makeSubObject(data, userID);
     dispatch(addItemToDB({item, userID}));
-    setData(initial);
+    dispatch(resetForm());
     history.push('/');
   }
 
   const cancel = () => {
-    setData(initial);
+    dispatch(resetForm());
     history.push('/');
   };
 
@@ -127,7 +123,7 @@ export default function Form() {
             openTo="year"
             views={["year", "month", "day"]}
             mask={'__.__.____'}
-            value={data.date}
+            value={new Date(data.date)}
             onChange={(newValue) => {
                 setDate(newValue)
             }}

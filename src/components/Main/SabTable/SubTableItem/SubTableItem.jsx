@@ -8,6 +8,7 @@ import loacaleDate from "../../../utils/localeDate";
 import changeValidity from "../../../utils/changeValidity";
 import { deleteFromDB, addItemToDB } from '../../../../slices/app';
 import { useHistory } from "react-router";
+import { editingForm } from "../../../../slices/form";
 
 export default function SubTableItem({ item }) {
   const history = useHistory();
@@ -48,6 +49,12 @@ export default function SubTableItem({ item }) {
     history.push('/');
   }
 
+  //отправляем подписку в форму редактирования
+  const editItem = () => {
+    dispatch(editingForm(item));
+    history.push('/add');
+  };
+
   return (
     <div className="sabTable-item border" onClick={click}>
       <div className="sabTable-item-container">
@@ -75,7 +82,7 @@ export default function SubTableItem({ item }) {
           <span>{loacaleDate(date)}</span>
         </div>
         <div className="sabTable-item-buttons column">
-          <button className="sabTable-item-button">
+          <button className="sabTable-item-button" onClick={editItem}>
             <span className="material-icons">edit</span>
           </button>
           <button className="sabTable-item-button" onClick={switActivness}>
