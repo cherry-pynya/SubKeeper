@@ -12,7 +12,6 @@ import Loader from "./components/Loader/Loader";
 import OpsPage from "./components/OpsPage/OpsPage";
 import moment from "moment";
 
-
 moment().format("L");
 moment.locale("ru");
 

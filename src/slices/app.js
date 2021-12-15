@@ -71,12 +71,23 @@ export const deleteFromDB = createAsyncThunk('deleteFromDB', async (object) => {
   return subs;
 });
 
-//добавляет подписку в базу или редактирует уже существующуу, просто заменяя ее
+//добавляет подписку в базу
 export const addItemToDB = createAsyncThunk('addItemToDB', async (object) => {
   const { item, userID } = object;
   const { id } = item;
   const docRef = doc(db, 'subs', id);
   await setDoc(docRef, item);
+  const subs = await getDataFromDB(userID);
+  return subs;
+});
+
+//редактируем подписку в базе
+export const editItemInDB = createAsyncThunk('editItemInDB', async (object) => {
+  const { data, userID } = object;
+  const { id } = data;
+  delete data.newItem;
+  const docRef = doc(db, 'subs', id);
+  await setDoc(docRef, data, {merge: true});
   const subs = await getDataFromDB(userID);
   return subs;
 });
@@ -183,8 +194,7 @@ export const app = createSlice({
       })
       .addCase(addItemToDB.fulfilled, (state, action) => {
         state.data = action.payload;
-        const stats = new Statistics(action.payload, state.currency);
-        state.statistics = stats.init();
+        state.statistics = new Statistics(action.payload, state.currency).init();
         state.status = process.env.REACT_APP_FULLFILED;
         console.log('Item added to db!');
       })
@@ -196,12 +206,23 @@ export const app = createSlice({
       })
       .addCase(deleteFromDB.fulfilled, (state, action) => {
         state.data = action.payload;
-        const stats = new Statistics(action.payload, state.currency);
-        state.statistics = stats.init();
+        state.statistics = new Statistics(action.payload, state.currency).init();
         console.log('Item deleted from DB!');
         state.status = process.env.REACT_APP_FULLFILED;
       })
       .addCase(deleteFromDB.rejected, (state) => {
+        state.status = process.env.REACT_APP_REJECTED;
+      })
+      .addCase(editItemInDB.pending, (state) => {
+        state.status = process.env.REACT_APP_PENDING;
+      })
+      .addCase(editItemInDB.fulfilled, (state, action) => {
+        state.data = action.payload;
+        state.statistics = new Statistics(action.payload, state.currency).init();
+        state.status = process.env.REACT_APP_FULLFILED;
+        console.log('Item edited to db!');
+      })
+      .addCase(editItemInDB.rejected, (state) => {
         state.status = process.env.REACT_APP_REJECTED;
       })
   },
