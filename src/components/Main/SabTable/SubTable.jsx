@@ -13,7 +13,7 @@ export default function SubTable() {
     return (
       <section style={{ width: "70%", height: "100%", margin: 0 }}>
         <StatusText text={index ? 'активные' : 'у вас пока нет подписок нажмите \"добавить\", чтобы они появились!'} />
-        {active.map((el) => (
+        {inActive.map((el) => (
           <SubTableItem item={el} key={el.id} />
         ))}
       </section>

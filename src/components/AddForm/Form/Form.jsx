@@ -9,12 +9,14 @@ import makeSubObject from "../../utils/makeSubObkect";
 import { useHistory } from "react-router";
 import { addItemToDB, editItemInDB } from '../../../slices/app';
 import { resetForm } from "../../../slices/form";
+import checkSubNameExist from "../../utils/checkSubNameExist";
 
 export default function Form() {
   const dispatch = useDispatch();
   const userID = useSelector((state) => state.app.user.id);
   const initial = useSelector((state) => state.form);
   const history = useHistory();
+  const subs = useSelector((state) => state.app.data);
   const [data, setData] = useState(initial);
 
   const handleChange = (e) => {
@@ -29,18 +31,19 @@ export default function Form() {
   };
 
   const onSubmit = (e) => {
-    if (data.cost === 0 || data.name === '') {
-      return false;
-    };
     e.preventDefault();
-    if (data.newItem) {
-      const item = makeSubObject(data, userID);
-      dispatch(addItemToDB({item, userID}));
+    if (data.cost === 0 || data.name === '' || checkSubNameExist(subs, data.name)) {
+      return false;
     } else {
-      dispatch(editItemInDB({data, userID}));
+      if (data.newItem) {
+        const item = makeSubObject(data, userID);
+        dispatch(addItemToDB({item, userID}));
+      } else {
+        dispatch(editItemInDB({data, userID}));
+      }
+      dispatch(resetForm());
+      history.push('/');
     }
-    dispatch(resetForm());
-    history.push('/');
   }
 
   const cancel = () => {

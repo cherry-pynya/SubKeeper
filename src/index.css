@@ -349,4 +349,10 @@ code {
 .ops-page button {
   font-size: 1.2rem;
 }
+
+.modal {
+  height: 100vh;
+  width: 100vw;
+  background-color: rgba;
+}
 /*# sourceMappingURL=index.css.map */
