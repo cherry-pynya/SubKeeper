@@ -1,6 +1,8 @@
 import { useSelector } from "react-redux";
 import Page from "../Page/Page";
 import SubTable from "./SabTable/SubTable";
+import Modal from "../Modal/Modal";
+import SubDeleteModal from "./SabTable/SubDeleteModal/SubDeleteModal";
 
 import NotLogedIn from "./NotLogedIn/NotLogedIn";
 import Aside from "./Aside/Aside";
@@ -13,11 +15,14 @@ export default function Main() {
             <NotLogedIn />
         </Page>
     );
-    
+
     return (
         <Page>
             <SubTable />
             <Aside />
+            <Modal>
+                <SubDeleteModal />
+            </Modal>
         </Page>
     );
 }

@@ -147,7 +147,7 @@ code {
 
 .widget-container {
   width: 30%;
-  height: 75vh;
+  height: 55vh;
   margin-top: 60px;
   display: -webkit-box;
   display: -ms-flexbox;
@@ -353,6 +353,43 @@ code {
 .modal {
   height: 100vh;
   width: 100vw;
-  background-color: rgba;
+  background-color: rgba(0, 0, 0, 0.4);
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  -webkit-transition: 0.5s;
+  transition: 0.5s;
+}
+
+.modal.active {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.modal-content {
+  padding: 20px;
+  border-radius: 12px;
+  background-color: white;
+  -webkit-transform: scale(0.5);
+          transform: scale(0.5);
+  -webkit-transition: 0.4 all;
+  transition: 0.4 all;
+  width: 50vw;
+}
+
+.modal-content.active {
+  -webkit-transform: scale(1);
+          transform: scale(1);
 }
 /*# sourceMappingURL=index.css.map */

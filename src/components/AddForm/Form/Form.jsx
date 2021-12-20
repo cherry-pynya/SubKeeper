@@ -26,13 +26,12 @@ export default function Form() {
   };
 
   const setDate = (newDate) => {
-    console.log(newDate)
     setData({...data, date: newDate.toString()});
   };
 
   const onSubmit = (e) => {
     e.preventDefault();
-    if (data.cost === 0 || data.name === '' || checkSubNameExist(subs, data.name)) {
+    if (+data.cost === 0 || data.name === '' || checkSubNameExist(subs, data.name)) {
       return false;
     } else {
       if (data.newItem) {

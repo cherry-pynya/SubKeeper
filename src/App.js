@@ -11,6 +11,7 @@ import PageNotFound from "./components/PageNotFound/PageNotFound";
 import Loader from "./components/Loader/Loader";
 import OpsPage from "./components/OpsPage/OpsPage";
 import moment from "moment";
+import Modal from "./components/Modal/Modal";
 
 moment().format("L");
 moment.locale("ru");

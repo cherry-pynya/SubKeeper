@@ -9,7 +9,7 @@ export default function SubTable() {
   const inActive = data.filter((el) => el.active === false);
   const active = data.filter((el) => el.active === true);
 
-  if (inActive.length === 0) {
+  if (active.length === 0) {
     return (
       <section style={{ width: "70%", height: "100%", margin: 0 }}>
         <StatusText text={index ? 'активные' : 'у вас пока нет подписок нажмите \"добавить\", чтобы они появились!'} />
