@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import DatePicker from '@material-ui/lab/DatePicker';
 import TextField from "@mui/material/TextField";
@@ -18,6 +18,10 @@ export default function Form() {
   const history = useHistory();
   const subs = useSelector((state) => state.app.data);
   const [data, setData] = useState(initial);
+  const [mistake, setMistake] = useState({
+    active: false,
+    mistake: '',
+  });
 
   const handleChange = (e) => {
     const { name } = e.target;
@@ -134,6 +138,9 @@ export default function Form() {
             renderInput={(params) => <TextField {...params} />}
           />
         </LocalizationProvider>
+      </div>
+      <div className={mistake.active ? "form-mistake" : "form-mistake inActive"}>
+            <span>{mistake.mistake}</span>
       </div>
       <div className='row mb-3'>
           <button type='submit' className='btn btn-lg btn-success' style={{margin: '0 20px 0 1rem'}}>Сохранить</button>

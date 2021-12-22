@@ -281,11 +281,21 @@ code {
   padding: 20px;
   border-radius: 12px;
   background-color: white;
-  transform: scale(0.5);
+  transform: scale(0.005);
   transition: 0.4 all;
-  width: 50vw;
+  width: 25vw;
+  text-align: center;
+  font-size: 1rem;
 }
 
 .modal-content.active {
   transform: scale(1);
+}
+
+.modal-btn {
+  margin-top: 15px;
+}
+
+.btn-space {
+  margin-right: 15px;
 }

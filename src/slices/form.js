@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
     name: "",
-    cost: "",
+    cost: 0,
     currency: "RUB",
     option: "1",
     date: new Date().toString(),
@@ -17,7 +17,7 @@ export const form = createSlice({
         resetForm: (state) => {
             state.newItem = true;
             state.name = "";
-            state.cost = "";
+            state.cost = 0;
             state.currency = "RUB";
             state.option = "1";
             state.date = new Date().toString();

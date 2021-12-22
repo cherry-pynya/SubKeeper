@@ -1,19 +1,29 @@
 import { createSlice } from "@reduxjs/toolkit";
 
+//отвечает за состояние модального окна
 const initialState = {
     active: false,
+    id: null,
+    name: '',
 };
 
 export const modal = createSlice({
     name: 'modal',
     initialState,
     reducers: {
-        toggleActive: (state) => {
-            state.active = !state.active;
+        setModal: (state, action) => {
+            const { name , id } = action.payload;
+            state.active = true;
+            state.id = id;
+            state.name = name;
+        },
+        resetModal: (state) => {
+            state.active = false;
+            state.id = null;
         }
     }
 });
 
-export const { toggleActive } = modal.actions;
+export const { toggleActive, setModal, resetModal } = modal.actions;
 
 export default modal.reducer;

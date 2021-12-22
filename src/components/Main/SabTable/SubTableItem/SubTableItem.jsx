@@ -6,9 +6,10 @@ import "../../../../materialIcons.css";
 import { randomColor } from "randomcolor";
 import loacaleDate from "../../../utils/localeDate";
 import changeValidity from "../../../utils/changeValidity";
-import { deleteFromDB, addItemToDB } from '../../../../slices/app';
+import { addItemToDB } from '../../../../slices/app';
 import { useHistory } from "react-router";
 import { editingForm } from "../../../../slices/form";
+import { setModal } from "../../../../slices/modal";
 
 export default function SubTableItem({ item }) {
   const history = useHistory();
@@ -38,9 +39,8 @@ export default function SubTableItem({ item }) {
   }, []);
 
   const deleteItem = () => {
-    // удаляет подписку из базы
-    dispatch(deleteFromDB({id, userID}));
-    history.push('/');
+    // вызывает модальное окно удаления подписки
+    dispatch(setModal({id, name}));
   };
 
   const switActivness = () => {
