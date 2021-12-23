@@ -402,4 +402,11 @@ code {
 .btn-space {
   margin-right: 15px;
 }
+
+.form-mistake {
+  color: crimson;
+  margin-bottom: 16px;
+  -webkit-transition: all 0.4s ease-in-out;
+  transition: all 0.4s ease-in-out;
+}
 /*# sourceMappingURL=index.css.map */

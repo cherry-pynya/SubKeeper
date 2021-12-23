@@ -1,4 +1,3 @@
-import { render } from "@testing-library/react";
 import { useSelector, useDispatch } from "react-redux";
 import { deleteFromDB } from "../../../../slices/app";
 import { resetModal } from '../../../../slices/modal';
@@ -6,7 +5,7 @@ import { resetModal } from '../../../../slices/modal';
 export default function SubDeleteModal() {
     const dispatch = useDispatch();
     const id = useSelector((state) => state.modal.id);
-    const name = useSelector((state) => state.modal.name);
+    const name = useSelector((state) => state.modal.name).toUpperCase();
     const active = useSelector((state) => state.modal.active);
     const userID = useSelector((state) => state.app.user.id);
 

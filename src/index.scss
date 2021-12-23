@@ -299,3 +299,9 @@ code {
 .btn-space {
   margin-right: 15px;
 }
+
+.form-mistake {
+  color: crimson;
+  margin-bottom: 16px;
+  @include stretch();
+}

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import DatePicker from '@material-ui/lab/DatePicker';
 import TextField from "@mui/material/TextField";
@@ -9,7 +9,7 @@ import makeSubObject from "../../utils/makeSubObkect";
 import { useHistory } from "react-router";
 import { addItemToDB, editItemInDB } from '../../../slices/app';
 import { resetForm } from "../../../slices/form";
-import checkSubNameExist from "../../utils/checkSubNameExist";
+import checkFormData from "../../utils/checkFormData";
 
 export default function Form() {
   const dispatch = useDispatch();
@@ -23,6 +23,12 @@ export default function Form() {
     mistake: '',
   });
 
+  useEffect(() => {
+    return function cleanup() {
+      dispatch(resetForm());
+    }
+  }, []);
+
   const handleChange = (e) => {
     const { name } = e.target;
     const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value;
@@ -35,7 +41,12 @@ export default function Form() {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    if (+data.cost === 0 || data.name === '' || checkSubNameExist(subs, data.name)) {
+    const check = checkFormData(data, subs);
+    if (check) {
+      setMistake({
+        active: true,
+        mistake: check,
+      });
       return false;
     } else {
       if (data.newItem) {
@@ -140,7 +151,7 @@ export default function Form() {
         </LocalizationProvider>
       </div>
       <div className={mistake.active ? "form-mistake" : "form-mistake inActive"}>
-            <span>{mistake.mistake}</span>
+          <span>{mistake.mistake}</span>
       </div>
       <div className='row mb-3'>
           <button type='submit' className='btn btn-lg btn-success' style={{margin: '0 20px 0 1rem'}}>Сохранить</button>

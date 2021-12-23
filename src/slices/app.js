@@ -6,7 +6,7 @@ import {
   GoogleAuthProvider,
   signOut,
   setPersistence,
-  browserSessionPersistence
+  browserSessionPersistence,
 } from "firebase/auth";
 import { initializeApp } from "firebase/app";
 import { 
