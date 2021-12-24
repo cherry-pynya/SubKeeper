@@ -6,7 +6,7 @@ import "../../../../materialIcons.css";
 import { randomColor } from "randomcolor";
 import loacaleDate from "../../../utils/localeDate";
 import changeValidity from "../../../utils/changeValidity";
-import { addItemToDB } from '../../../../slices/app';
+import { editItemInDB } from '../../../../slices/app';
 import { useHistory } from "react-router";
 import { editingForm } from "../../../../slices/form";
 import { setModal } from "../../../../slices/modal";
@@ -45,7 +45,8 @@ export default function SubTableItem({ item }) {
 
   const switActivness = () => {
     //меняет активность подписки
-    dispatch(addItemToDB(changeValidity({...item})));
+    const data = changeValidity({...item});
+    dispatch(editItemInDB({data, userID}));
     history.push('/');
   }
 

@@ -1,17 +1,21 @@
-import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
 import LoginButton from '../../LoginButton/LoginButton';
 import NavLink from './NavLink/NavLink';
 import { nanoid } from '@reduxjs/toolkit';
 import NavBrand from './NavBrand/Navbrand';
+import { useHistory } from 'react-router';
 
 export default function HeaderNav() {
+    const history = useHistory();
+    const currentPath = history.location.pathname;
+    console.log(history.location.pathname);
+
     const logedOut = [
         {
             name: 'Главная',
             path: '/',
-            active: true,
+            active: false,
         },
         {
             name: 'О проекте',
@@ -24,7 +28,7 @@ export default function HeaderNav() {
         {
             name: 'Главная',
             path: '/',
-            active: true,
+            active: false,
         },
         {
             name: 'Добавить',
@@ -48,7 +52,19 @@ export default function HeaderNav() {
             setItems(logedOut);
         }
     }, [login]);
-
+    /**
+    useEffect(() => {
+        const newItems = items.map((el) => {
+            if (el.path === currentPath) {
+                el.active = true;
+            } else {
+                el.active = false;
+            }
+            return el;
+        });
+        console.log( 'newItems' ,newItems);
+        setItems(newItems);
+    }, [currentPath]);
     const navClick = (e) => {
         const { id } = e.target;
         const arr = items.map((el) => {
@@ -61,14 +77,15 @@ export default function HeaderNav() {
         });
         setItems(arr);
     };
+    */
 
     return(
         <nav className='navbar navbar-expand-sm navbar-light'>
             <div className='container-fluid'>
                 <NavBrand />
                 <div className="collapse navbar-collapse" id="navbarNav">
-                    <ul className='navbar-nav' onClick={navClick}>
-                        {items.map((el) => <NavLink item={el} key={nanoid()} />)}
+                    <ul className='navbar-nav'>
+                        {items.map((el) => <NavLink item={el} key={nanoid()} currentPath={currentPath} />)}
                     </ul>
                 </div>
                 <LoginButton />

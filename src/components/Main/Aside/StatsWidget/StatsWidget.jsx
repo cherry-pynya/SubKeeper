@@ -9,7 +9,12 @@ import { updateStats } from "../../../../slices/app";
 
 export default function StatsWidget() {
   const dispatch = useDispatch();
-  const stats = useSelector((state) => state.app.statistics);
+  //отбираем только активные подписки
+  const stats = useSelector((state) => state.app.statistics).filter((el) => {
+    if (el.active === true) {
+      return el;
+    }
+  });
 
   const [data, setData] = useState([]);
   const [cur, setCur] = useState("RUB");

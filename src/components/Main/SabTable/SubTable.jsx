@@ -9,27 +9,24 @@ export default function SubTable() {
   const inActive = data.filter((el) => el.active === false);
   const active = data.filter((el) => el.active === true);
 
-  if (active.length === 0) {
+  if (data.length === 0) {
     return (
       <section style={{ width: "70%", height: "100%", margin: 0 }}>
         <StatusText text={index ? 'активные' : 'у вас пока нет подписок нажмите \"добавить\", чтобы они появились!'} />
+      </section>
+    );
+  } else {
+    return (
+      <section style={{ width: "70%", height: "100%", margin: 0 }}>
+        <StatusText text={'активные'} />
+        {active.map((el) => (
+          <SubTableItem item={el} key={el.id} />
+        ))}
+        <StatusText text={'не активные'} />
         {inActive.map((el) => (
           <SubTableItem item={el} key={el.id} />
         ))}
       </section>
     );
   }
-
-  return (
-    <section style={{ width: "70%", height: "100%", margin: 0 }}>
-      <StatusText text={'активные'} />
-      {active.map((el) => (
-        <SubTableItem item={el} key={el.id} />
-      ))}
-      <StatusText text={'не активные'} />
-      {inActive.map((el) => (
-        <SubTableItem item={el} key={el.id} />
-      ))}
-    </section>
-  );
 }
