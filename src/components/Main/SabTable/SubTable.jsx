@@ -8,6 +8,7 @@ export default function SubTable() {
   const index = data.length;
   const inActive = data.filter((el) => el.active === false);
   const active = data.filter((el) => el.active === true);
+  console.log(data)
 
   if (data.length === 0) {
     return (

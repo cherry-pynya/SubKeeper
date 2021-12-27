@@ -5,7 +5,7 @@ export default function changeValidity(item) {
     const { active, date } = item;
     // проверяем текущий статус подписки
     if (active === true) {
-        const newCanceled = loacaleDate(new Date());
+        const newCanceled = new Date().toString();
         if ('reactiveted' in item ) {
             // если подписку уже ркактивировали, то добавляем в астивные периоды новый перио активности
             const { activatedDate } = item;
@@ -19,13 +19,13 @@ export default function changeValidity(item) {
         }
         //выключаем подписку и обновляем дату выключения
         item.active = false;
-        item.canceled = loacaleDate(new Date());
+        item.canceled = new Date().toString();
     } 
     if (active === false) {
         //включаем подписку и ставим новую дату активации
         item['reactiveted'] = true;
         item.active = true;
-        item.activatedDate = loacaleDate(new Date());
+        item.activatedDate = new Date().toString();
     }
     return item;
 };
