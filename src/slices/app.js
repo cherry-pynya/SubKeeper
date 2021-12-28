@@ -1,14 +1,12 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import {
-  getAuth,
   signInWithPopup,
   GoogleAuthProvider,
   signOut,
   setPersistence,
   browserSessionPersistence,
 } from "firebase/auth";
-import { initializeApp } from "firebase/app";
 import { 
   getFirestore, 
   setDoc, 
@@ -20,36 +18,22 @@ import {
   deleteDoc  } from "firebase/firestore"
 import extractCurrency from "../components/utils/extractCurrency";
 import Statistics from "../components/utils/Statistics";
+import firebaseApp, { auth } from "../firebase";
 
-const firebaseApp = initializeApp({
-  apiKey: "AIzaSyDZWaOTq1z1RbaHPM-tMzubnMexLyCFHvA",
-  authDomain: "subkeeper-b64b3.firebaseapp.com",
-  projectId: "subkeeper-b64b3",
-  storageBucket: "subkeeper-b64b3.appspot.com",
-  messagingSenderId: "894159441354",
-  appId: "1:894159441354:web:6ef402287ca3a21f7c5333",
-  measurementId: "G-QEF0Z23DDF",
-});
-
-
+const provider = new GoogleAuthProvider();
+provider.addScope('https://www.googleapis.com/auth/contacts.readonly');
+const db = getFirestore(firebaseApp);
 
 const initialState = {
   status: process.env.REACT_APP_FULLFILED,
   login: false,
   currency: [],
   user: {
-    accessToken: '',
     id: '',
-    email: '',
-    accessToken: '',
   },
   statistics: [],
   data: [],
 };
-
-const provider = new GoogleAuthProvider();
-const auth = getAuth();
-const db = getFirestore();
 
 //проверяет есть ли в базе подписки по id пользователя firebase
 async function getDataFromDB(id) {
@@ -92,22 +76,23 @@ export const editItemInDB = createAsyncThunk('editItemInDB', async (object) => {
   return subs;
 });
 
-export const login = createAsyncThunk("login", async () => {
-  const userData = await setPersistence(auth, browserSessionPersistence).then(() => {
-    return signInWithPopup(auth, provider);
-  });
-  const { user } = userData;
-  const { uid } = user;
+export const login = createAsyncThunk("login", async (id = null) => {
+  let uid;
+  if (!id) {
+    const userData = await setPersistence(auth, browserSessionPersistence).then(() => {
+      return signInWithPopup(auth, provider);
+    });
+    const { user } = userData;
+    uid = user.uid;
+  } else {
+    uid = id.uid;
+  }
   const subs = await getDataFromDB(uid);
-  return {userData, subs};
+  return {uid, subs};
 });
 
 export const logout = createAsyncThunk("logout", async () => {
-  signOut(auth).then(() => {
-    console.log('User signed out');
-  }).catch((error) => {
-    console.error(error);
-  })
+  await signOut(auth);
 });
 
 export const getCurrency = createAsyncThunk("getCurrency", async () => {
@@ -142,7 +127,7 @@ export const app = createSlice({
     updateStats: (state) => {
       const stats = new Statistics(state.data, state.currency);
       state.statistics = stats.init();
-    }
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -150,13 +135,8 @@ export const app = createSlice({
         state.status = process.env.REACT_APP_PENDING;
       })
       .addCase(login.fulfilled, (state, action) => {
-        const { userData, subs } = action.payload;
-        const { user } = userData;
-        const { displayName } = user.providerData[0];
-        const { email, uid } = user;
-        state.user.email = email;
+        const { uid, subs } = action.payload;
         state.user.id = uid;
-        state.user.name = displayName;
         state.login = true;
         state.data = subs;
         const stats = new Statistics(state.data, state.currency);

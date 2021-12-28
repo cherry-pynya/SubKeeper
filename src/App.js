@@ -11,7 +11,8 @@ import PageNotFound from "./components/PageNotFound/PageNotFound";
 import Loader from "./components/Loader/Loader";
 import OpsPage from "./components/OpsPage/OpsPage";
 import moment from "moment";
-import Modal from "./components/Modal/Modal";
+import { auth } from "./firebase";
+import { login } from "./slices/app";
 
 moment().format("L");
 moment.locale("ru");
@@ -21,8 +22,24 @@ export default function App() {
   const isLoged = useSelector((state) => state.app.login);
   const status = useSelector((state) => state.app.status);
 
+  //запрашиваем курс валют
   useEffect(() => {
     dispatch(getCurrency());
+  }, []);
+
+  //проверяем заходил ли наш пользователь уже из этого браузкра
+  //если да, то входим автоматически
+  //если нет, то ничего не происходит
+  useEffect(() => {
+    const unsubscribe = auth.onAuthStateChanged(user => {
+      if (user) {
+        const { uid } = user;
+        dispatch(login({uid}));
+      } else {
+        return false;
+      }
+    });
+    return unsubscribe;
   }, []);
   
   if (isLoged && status === process.env.REACT_APP_FULLFILED)

@@ -9,7 +9,6 @@ import { useHistory } from 'react-router';
 export default function HeaderNav() {
     const history = useHistory();
     const currentPath = history.location.pathname;
-    console.log(history.location.pathname);
 
     const logedOut = [
         {
