@@ -2,13 +2,11 @@ import { createSlice } from "@reduxjs/toolkit";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import {
   signInWithPopup,
-  GoogleAuthProvider,
   signOut,
   setPersistence,
   browserSessionPersistence,
 } from "firebase/auth";
 import { 
-  getFirestore, 
   setDoc, 
   doc, 
   collection, 
@@ -18,11 +16,7 @@ import {
   deleteDoc  } from "firebase/firestore"
 import extractCurrency from "../components/utils/extractCurrency";
 import Statistics from "../components/utils/Statistics";
-import firebaseApp, { auth } from "../firebase";
-
-const provider = new GoogleAuthProvider();
-provider.addScope('https://www.googleapis.com/auth/contacts.readonly');
-const db = getFirestore(firebaseApp);
+import { auth, provider, db } from "../firebase";
 
 const initialState = {
   status: process.env.REACT_APP_FULLFILED,
@@ -76,6 +70,7 @@ export const editItemInDB = createAsyncThunk('editItemInDB', async (object) => {
   return subs;
 });
 
+//логинимся и получаем данные из базы
 export const login = createAsyncThunk("login", async (id = null) => {
   let uid;
   if (!id) {
@@ -91,6 +86,7 @@ export const login = createAsyncThunk("login", async (id = null) => {
   return {uid, subs};
 });
 
+//разлогиниваемся
 export const logout = createAsyncThunk("logout", async () => {
   await signOut(auth);
 });
@@ -152,10 +148,7 @@ export const app = createSlice({
       .addCase(logout.fulfilled, (state) => {
         state.login = false;
         state.user = {
-          accessToken: '',
           id: '',
-          email: '',
-          accessToken: '',
         };
         state.status = process.env.REACT_APP_FULLFILED;
       })
@@ -176,7 +169,7 @@ export const app = createSlice({
         state.data = action.payload;
         state.statistics = new Statistics(action.payload, state.currency).init();
         state.status = process.env.REACT_APP_FULLFILED;
-        console.log('Item added to db!');
+        console.log('Item added to DB!');
       })
       .addCase(addItemToDB.rejected, (state) => {
         state.status = process.env.REACT_APP_REJECTED;
@@ -200,7 +193,7 @@ export const app = createSlice({
         state.data = action.payload;
         state.statistics = new Statistics(action.payload, state.currency).init();
         state.status = process.env.REACT_APP_FULLFILED;
-        console.log('Item edited to db!');
+        console.log('Item edited in DB!');
       })
       .addCase(editItemInDB.rejected, (state) => {
         state.status = process.env.REACT_APP_REJECTED;

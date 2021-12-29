@@ -1,17 +1,22 @@
 import { initializeApp } from "firebase/app";
-import { getAuth } from "firebase/auth";
+import { getAuth, GoogleAuthProvider } from "firebase/auth";
+import { getFirestore } from "firebase/firestore"
 
 const firebaseApp = initializeApp({
-    apiKey: "AIzaSyDZWaOTq1z1RbaHPM-tMzubnMexLyCFHvA",
+    apiKey: process.env.REACT_APP_apiKey,
     authDomain: "subkeeper-b64b3.firebaseapp.com",
     projectId: "subkeeper-b64b3",
     storageBucket: "subkeeper-b64b3.appspot.com",
-    messagingSenderId: "894159441354",
-    appId: "1:894159441354:web:6ef402287ca3a21f7c5333",
-    measurementId: "G-QEF0Z23DDF",
+    messagingSenderId: process.env.REACT_APP_messagingSenderId,
+    appId: process.env.REACT_APP_appId,
+    measurementId: process.env.REACT_APP_measurementId,
 });
 
-export const auth = getAuth(firebaseApp);
+const auth = getAuth(firebaseApp);
 auth.languageCode = 'ru';
+const provider = new GoogleAuthProvider();
+provider.addScope('https://www.googleapis.com/auth/contacts.readonly');
+const db = getFirestore(firebaseApp);
 
 export default firebaseApp;
+export {auth, provider, db};

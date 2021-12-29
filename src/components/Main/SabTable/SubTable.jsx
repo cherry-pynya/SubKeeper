@@ -1,5 +1,4 @@
-import { useSelector, useDispatch } from "react-redux";
-import { useEffect } from "react";
+import { useSelector } from "react-redux";
 import SubTableItem from "./SubTableItem/SubTableItem";
 import StatusText from "./StatusText";
 
@@ -11,18 +10,18 @@ export default function SubTable() {
 
   if (data.length === 0) {
     return (
-      <section style={{ width: "70%", height: "100%", margin: 0 }}>
+      <section className="subtable-section">
         <StatusText text={index ? 'активные' : 'у вас пока нет подписок нажмите \"добавить\", чтобы они появились!'} />
       </section>
     );
   } else {
     return (
-      <section style={{ width: "70%", height: "100%", margin: 0 }}>
+      <section className="subtable-section">
         <StatusText text={'активные'} />
         {active.map((el) => (
           <SubTableItem item={el} key={el.id} />
         ))}
-        <StatusText text={'не активные'} />
+        {inActive.length > 0 ? <StatusText text={'не активные'} />: false}
         {inActive.map((el) => (
           <SubTableItem item={el} key={el.id} />
         ))}

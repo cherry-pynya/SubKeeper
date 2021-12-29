@@ -409,4 +409,138 @@ code {
   -webkit-transition: all 0.4s ease-in-out;
   transition: all 0.4s ease-in-out;
 }
+
+.subtable-section {
+  width: 70%;
+  height: 100%;
+  margin: 0;
+}
+
+@media (min-width: 700px) and (max-width: 1025px) and (orientation: portrait) {
+  .main {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+  }
+  .subtable-section {
+    width: 100%;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+  }
+  .widget-container {
+    margin: 60px 0 0 0;
+    width: 60%;
+    height: 100%;
+    margin: 0 auto;
+  }
+  .widget-cur-selector {
+    width: 60%;
+  }
+  .form-select {
+    border: 1px solid black;
+  }
+  .loader-page {
+    margin-top: 50%;
+  }
+  .ops-page {
+    margin-top: 50%;
+  }
+  .widget {
+    margin: 20px 0 20px 0;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+  }
+}
+
+@media (max-width: 700px) and (orientation: portrait) {
+  .main {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+  }
+  .subtable-section {
+    width: 100%;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+  }
+  .subtable-section div {
+    width: 100%;
+  }
+  .sabTable-item-container {
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    height: 100%;
+    text-align: center;
+  }
+  .sabTable-item-buttons {
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: row;
+            flex-direction: row;
+  }
+  .sabTable-item-letter-container {
+    width: 70px;
+  }
+  .sabTable-item-letter-container {
+    display: none;
+  }
+  .sabTable-item-buttons {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+    margin-top: 5px;
+  }
+  .sabTable-item-smal-text-container {
+    margin-top: 5px;
+  }
+  .sabTable-item-large-text-container {
+    margin-top: 5px;
+  }
+  .totalCost {
+    margin: 5px 0 5px 0;
+  }
+}
 /*# sourceMappingURL=index.css.map */
