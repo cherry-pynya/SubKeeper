@@ -1,6 +1,6 @@
 export default function WidgetText({text}) {
     return (
-        <div>
+        <div className="widget-text">
             <span>{text}</span>
         </div>
     );
