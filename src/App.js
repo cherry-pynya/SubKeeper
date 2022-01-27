@@ -1,3 +1,4 @@
+import ProTypes from 'prop-types';
 import { useSelector, useDispatch } from "react-redux";
 import { useEffect } from "react";
 import { getCurrency } from "./slices/app";
@@ -99,3 +100,9 @@ export default function App() {
       </Router>
     );
 }
+
+App.propTypes = {
+  isLoged: ProTypes.bool,
+  status: ProTypes.string,
+};
+

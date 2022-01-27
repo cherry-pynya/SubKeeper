@@ -1,5 +1,6 @@
 import checkStringEquality from "./checkStringEquality";
 
+//получаем массив с подписками и имя новой подписки и проверяем есть ли в массиве подписка с таким именем
 export default function checkSubNameExist(array, string = '') {
     if (array.length === 0) {
         return false;

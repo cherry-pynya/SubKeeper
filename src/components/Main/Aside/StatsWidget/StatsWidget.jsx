@@ -6,6 +6,7 @@ import getStatsforPie from '../../../utils/getStatsforPie';
 import MonthlyCost from '../../../utils/MonthlyCost';
 import WidgetText from "./WidgetText/WidgetText";
 import { updateStats } from "../../../../slices/app";
+import PropTypes from 'prop-types';
 
 export default function StatsWidget() {
   const dispatch = useDispatch();
@@ -42,5 +43,8 @@ export default function StatsWidget() {
       <WidgetText text={cost} />
     </div>
   );
-}
+};
 
+StatsWidget.propTypes = {
+  stats: PropTypes.array
+};

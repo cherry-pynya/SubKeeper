@@ -1,6 +1,4 @@
-import loacaleDate from "./localeDate";
-
-//помогает дополнить объект подписки, если тот делают активным/неактивным
+//меняем активность подписки
 export default function changeValidity(item) {
     const { active, date } = item;
     // проверяем текущий статус подписки

@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import Chart from "react-google-charts";
 
 export default function PieChart({data}) {
@@ -22,3 +23,7 @@ export default function PieChart({data}) {
     </div>
   );
 }
+
+PieChart.propTypes = {
+  data: PropTypes.array.isRequired,
+};

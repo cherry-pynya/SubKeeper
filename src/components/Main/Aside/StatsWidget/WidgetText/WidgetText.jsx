@@ -1,3 +1,5 @@
+import PropTypes from 'prop-types';
+
 export default function WidgetText({text}) {
     return (
         <div className="widget-text">
@@ -5,3 +7,7 @@ export default function WidgetText({text}) {
         </div>
     );
 }
+
+WidgetText.propTypes = {
+    text: PropTypes.string,
+};

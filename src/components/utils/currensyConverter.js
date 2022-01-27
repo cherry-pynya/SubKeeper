@@ -9,5 +9,7 @@ export default function currencyConverter(str) {
             return '\u20AC';
         case 'GDP':
             return '\u00A3';
+        default:
+            return false;
     }
 }

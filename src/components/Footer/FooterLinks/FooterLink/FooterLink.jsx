@@ -1,3 +1,5 @@
+import PropTypes from 'prop-types';
+
 export default function FooterLink({item}) {
     const { link, name } = item;
     return (
@@ -8,3 +10,7 @@ export default function FooterLink({item}) {
         </li>
     );
 }
+
+FooterLink.propTypes = {
+    item: PropTypes.object.isRequired,
+};

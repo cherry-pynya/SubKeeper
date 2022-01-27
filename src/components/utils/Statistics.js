@@ -1,15 +1,11 @@
 import moment from "moment";
 
+//данный клас получает данные с сервера и курсы валют и возвращает массив с обработанными данными
 export default class Statistics {
   constructor(data, cur) {
     this.data = data;
     this.cur = cur;
     this.date = moment();
-    // сколько ты тратишь в месяц
-    // сколько всего заплатил
-    // массив с парой сервис/всего потрачено
-    // массив с парой ервис/стоимость подписки
-    // и все это в трех валютах
     this.statistics = [];
   }
 
@@ -37,7 +33,7 @@ export default class Statistics {
   }
 
   costPerCurrency(costPerMonth, currency) {
-    //метод стоимость подписки в валюте исходя из выбранной валюты
+    //метод возвращает стоимость подписки в валюте исходя из выбранной валюты
     const usdRate = this.getRate('USD');
     const eurRate = this.getRate('EUR');
     let rub;
@@ -71,7 +67,7 @@ export default class Statistics {
   }
 
   getTotalCost() {
-    //получаем сумму потраченную за весь перилд
+    //получаем сумму потраченную за весь период
     this.statistics.forEach((el) => {
       const {activeMonths, option, currency, cost } = el;
       if (currency in el) {

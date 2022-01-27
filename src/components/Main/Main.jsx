@@ -3,7 +3,7 @@ import Page from "../Page/Page";
 import SubTable from "./SabTable/SubTable";
 import Modal from "../Modal/Modal";
 import SubDeleteModal from "./SabTable/SubDeleteModal/SubDeleteModal";
-
+import PropTypes from 'prop-types';
 import NotLogedIn from "./NotLogedIn/NotLogedIn";
 import Aside from "./Aside/Aside";
 
@@ -26,3 +26,7 @@ export default function Main() {
         </Page>
     );
 }
+
+Main.propTypes = {
+    login: PropTypes.bool,
+};

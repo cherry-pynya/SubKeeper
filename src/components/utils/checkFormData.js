@@ -1,5 +1,6 @@
 import checkSubNameExist from "./checkSubNameExist";
 
+//получаем данные из формы и массив с подписками и проверяем валидность данных их формы
 export default function checkFormData(data, array) {
     const { name, cost, date } = data;
 

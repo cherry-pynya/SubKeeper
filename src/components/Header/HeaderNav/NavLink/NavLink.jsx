@@ -1,6 +1,7 @@
+import PropTypes from 'prop-types';
 import { Link } from "react-router-dom";
 
-export default function NavLink({item, currentPath}) {
+export default function NavLink({item}) {
     const {name, path, active} = item;
 
     return(
@@ -9,3 +10,7 @@ export default function NavLink({item, currentPath}) {
         </li>
     );
 }
+
+NavLink.propTypes = {
+    item: PropTypes.object.isRequired,
+};

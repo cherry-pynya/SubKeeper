@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import { nanoid } from "@reduxjs/toolkit";
 import { useState } from "react";
 
@@ -57,3 +58,12 @@ function CurBtn({ el, click }) {
     </button>
   );
 }
+
+CurrencySelector.propTypes = {
+  select: PropTypes.func.isRequired,
+};
+
+CurBtn.propTypes = {
+  el: PropTypes.object.isRequired,
+  click: PropTypes.func.isRequired,
+};

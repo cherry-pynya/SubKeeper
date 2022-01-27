@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import { useSelector, useDispatch } from "react-redux";
 import { deleteFromDB } from "../../../../slices/app";
 import { resetModal } from '../../../../slices/modal';
@@ -28,3 +29,10 @@ export default function SubDeleteModal() {
         </form>
     );
 }
+
+SubDeleteModal.propTypes = {
+    id: PropTypes.string,
+    name: PropTypes.string,
+    active: PropTypes.bool,
+    userID: PropTypes.string,
+};

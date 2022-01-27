@@ -1,3 +1,5 @@
+import PropTypes from 'prop-types';
+
 export default function StatusText({text}) {
     return(
         <div style={{ textTransform: "uppercase", marginTop: '20px', width: '90%'}}>
@@ -5,3 +7,7 @@ export default function StatusText({text}) {
         </div>
     );
 }
+
+StatusText.propTypes = {
+    text: PropTypes.string
+};

@@ -1,3 +1,5 @@
+import PropTypes from 'prop-types';
+
 export default function Page(props) {
     return (
         <main className='main'>
@@ -5,3 +7,7 @@ export default function Page(props) {
         </main>
     );
 }
+
+Page.propTypes= {
+    props: PropTypes.node
+};

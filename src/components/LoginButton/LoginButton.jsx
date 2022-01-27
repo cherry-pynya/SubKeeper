@@ -1,6 +1,7 @@
 import { useSelector, useDispatch } from 'react-redux';
 import { login, logout } from '../../slices/app';
 import { useHistory } from 'react-router';
+import PropTypes from 'prop-types';
 
 export default function LoginButton() {
     const dispatch = useDispatch();
@@ -20,3 +21,7 @@ export default function LoginButton() {
         <button type="button" className={isLoged ? 'btn btn-danger' : 'btn btn-success'} onClick={click}>{isLoged ? 'Выйти' : 'Войти'}</button>
     );
 }
+
+LoginButton.propTypes = {
+    isLoged: PropTypes.bool,
+};

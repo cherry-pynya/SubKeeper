@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import optionConverter from "../../../utils/optionConverter";
@@ -107,3 +108,10 @@ export default function SubTableItem({ item }) {
     </div>
   );
 }
+
+SubTableItem.propTypes = {
+  item: PropTypes.object.isRequired,
+  stats: PropTypes.array,
+  userID: PropTypes.string,
+};
+

@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import DatePicker from '@material-ui/lab/DatePicker';
@@ -159,4 +160,10 @@ export default function Form() {
       </div>
     </form>
   );
+}
+
+Form.propTypes = {
+  userID: PropTypes.string,
+  initial: PropTypes.object,
+  subs: PropTypes.array,
 }

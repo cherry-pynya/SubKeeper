@@ -1,6 +1,7 @@
 import { useSelector } from "react-redux";
 import SubTableItem from "./SubTableItem/SubTableItem";
 import StatusText from "./StatusText";
+import PropTypes from 'prop-types';
 
 export default function SubTable() {
   const data = useSelector((state) => state.app.data);
@@ -29,3 +30,8 @@ export default function SubTable() {
     );
   }
 }
+
+SubTable.propTypes = {
+  data: PropTypes.array,
+};
+

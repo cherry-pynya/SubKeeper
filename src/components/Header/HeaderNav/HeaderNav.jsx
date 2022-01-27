@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import LoginButton from "../../LoginButton/LoginButton";
@@ -78,7 +79,7 @@ export default function HeaderNav() {
             aria-expanded="false"
             aria-label="Toggle navigation"
           >
-            <span class="navbar-toggler-icon"></span>
+            <span className="navbar-toggler-icon"></span>
           </button>
           <NavBrand />
           <LoginButton />
@@ -110,4 +111,8 @@ export default function HeaderNav() {
       </nav>
     );
   }
+}
+
+HeaderNav.propTypes = {
+  login: PropTypes.bool
 }
