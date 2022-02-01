@@ -1,5 +1,6 @@
 import NavBrand from "../../Header/HeaderNav/NavBrand/Navbrand";
 
+//логотип в футере
 export default function FooterBrand() {
     return (
         <div className='footer-brand'>

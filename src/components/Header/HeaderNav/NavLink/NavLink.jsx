@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import { Link } from "react-router-dom";
 
+//ссылка в меня навигации
 export default function NavLink({item}) {
     const {name, path, active} = item;
 

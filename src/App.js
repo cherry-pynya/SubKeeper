@@ -14,6 +14,7 @@ import OpsPage from "./components/OpsPage/OpsPage";
 import moment from "moment";
 import { auth } from "./firebase";
 import { login } from "./slices/app";
+import "@fontsource/roboto";
 
 moment().format("L");
 moment.locale("ru");

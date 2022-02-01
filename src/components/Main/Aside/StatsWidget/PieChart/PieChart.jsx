@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import Chart from "react-google-charts";
 
+//google pie chart
 export default function PieChart({data}) {
   return (
     <div className="widget-piechart-container">

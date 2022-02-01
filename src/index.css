@@ -287,6 +287,35 @@ code {
   clip: rect(1px 1px 1px 1px);
 }
 
+.google-button {
+  font-family: "Roboto";
+  font-weight: normal;
+  border: 1px #4285F4 solid;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  display: inline-block;
+  background-color: #4285F4;
+  border-radius: 3px;
+}
+
+.google-button:hover {
+  cursor: pointer;
+}
+
+.google-button-icon {
+  background: url(./asets/icons/btn_google_light_normal_ios@2x.png) 50%;
+  background-repeat: no-repeat;
+  background-size: 45px;
+  display: inline-block;
+  vertical-align: middle;
+  width: 40px;
+  height: 40px;
+}
+
+.google-button-text {
+  margin: 0 8px 0 8px;
+}
+
 .page-not-found {
   display: -webkit-box;
   display: -ms-flexbox;

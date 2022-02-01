@@ -1,5 +1,6 @@
 import Page from "../Page/Page";
 
+//раздел "о проекте"
 export default function About() {
   return (
     <Page>

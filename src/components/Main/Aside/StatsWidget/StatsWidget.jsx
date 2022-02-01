@@ -8,6 +8,7 @@ import WidgetText from "./WidgetText/WidgetText";
 import { updateStats } from "../../../../slices/app";
 import PropTypes from 'prop-types';
 
+//виджет
 export default function StatsWidget() {
   const dispatch = useDispatch();
   //отбираем только активные подписки

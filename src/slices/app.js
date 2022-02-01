@@ -125,6 +125,7 @@ export const app = createSlice({
       state.statistics = stats.init();
     },
   },
+  //кейсы для исходов асинхронных запросов
   extraReducers: (builder) => {
     builder
       .addCase(login.pending, (state) => {

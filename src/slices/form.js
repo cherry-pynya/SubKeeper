@@ -10,6 +10,7 @@ const initialState = {
     id: null,
 }
 
+//отвечает за состояние формы
 export const form = createSlice({
     name: 'form',
     initialState,

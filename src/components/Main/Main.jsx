@@ -7,7 +7,9 @@ import PropTypes from 'prop-types';
 import NotLogedIn from "./NotLogedIn/NotLogedIn";
 import Aside from "./Aside/Aside";
 
+//фглавная страница
 export default function Main() {
+    //информация показана в зависимости от состояния логирования
     const login = useSelector((state) => state.app.login);
 
     if (!login) return (

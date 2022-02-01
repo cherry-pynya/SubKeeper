@@ -9,6 +9,7 @@ import { useHistory } from "react-router";
 import json2mq from "json2mq";
 import useMediaQuery from "@mui/material/useMediaQuery";
 
+//меню навигации 
 export default function HeaderNav() {
   const history = useHistory();
   const currentPath = history.location.pathname;
@@ -82,7 +83,7 @@ export default function HeaderNav() {
             <span className="navbar-toggler-icon"></span>
           </button>
           <NavBrand />
-          <LoginButton />
+          {login ? <LoginButton /> : false}
         </div>
         <div
           className="collapse navbar-collapse show inActive"
@@ -107,7 +108,7 @@ export default function HeaderNav() {
             ))}
           </ul>
         </div>
-        <LoginButton />
+        {login ? <LoginButton /> : false}
       </nav>
     );
   }

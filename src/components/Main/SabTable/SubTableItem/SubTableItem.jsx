@@ -1,4 +1,4 @@
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import optionConverter from "../../../utils/optionConverter";
@@ -7,17 +7,18 @@ import "../../../../materialIcons.css";
 import { randomColor } from "randomcolor";
 import loacaleDate from "../../../utils/localeDate";
 import changeValidity from "../../../utils/changeValidity";
-import { editItemInDB } from '../../../../slices/app';
+import { editItemInDB } from "../../../../slices/app";
 import { useHistory } from "react-router";
 import { editingForm } from "../../../../slices/form";
 import { setModal } from "../../../../slices/modal";
+import Tooltip from "@mui/material/Tooltip";
 
 export default function SubTableItem({ item }) {
   const history = useHistory();
   const dispatch = useDispatch();
   const [totalCost, setTotalCost] = useState(0);
   const stats = useSelector((state) => state.app.statistics);
-  let { letter, name, cost, currency, option, date, id,  active} = item;
+  let { letter, name, cost, currency, option, date, id, active } = item;
   option = optionConverter(option);
   currency = currencyConverter(currency);
   const color = randomColor();
@@ -25,9 +26,12 @@ export default function SubTableItem({ item }) {
 
   const click = (e) => {
     //отвечает за появление суммы подписки по клику на нее
-    if (e.target.classList.contains('sabTable-item-button') || e.target.classList.contains('material-icons')) {
+    if (
+      e.target.classList.contains("sabTable-item-button") ||
+      e.target.classList.contains("material-icons")
+    ) {
       return false;
-    };
+    }
     e.target
       .closest(".sabTable-item")
       .querySelector(".totalCost")
@@ -41,20 +45,20 @@ export default function SubTableItem({ item }) {
 
   const deleteItem = () => {
     // вызывает модальное окно удаления подписки
-    dispatch(setModal({id, name}));
+    dispatch(setModal({ id, name }));
   };
 
   const switActivness = () => {
     //меняет активность подписки
-    const data = changeValidity({...item});
-    dispatch(editItemInDB({data, userID}));
-    history.push('/');
-  }
+    const data = changeValidity({ ...item });
+    dispatch(editItemInDB({ data, userID }));
+    history.push("/");
+  };
 
   //отправляем подписку в форму редактирования
   const editItem = () => {
     dispatch(editingForm(item));
-    history.push('/add');
+    history.push("/add");
   };
 
   return (
@@ -84,17 +88,23 @@ export default function SubTableItem({ item }) {
           <span>{loacaleDate(date)}</span>
         </div>
         <div className="sabTable-item-buttons column">
-          <button className="sabTable-item-button" onClick={editItem}>
-            <span className="material-icons">edit</span>
-          </button>
-          <button className="sabTable-item-button" onClick={switActivness}>
-            <span className="material-icons">
-              {active ? 'unpublished' : 'published_with_changes'}
-            </span>
-          </button>
-          <button className="sabTable-item-button" onClick={deleteItem}>
-            <span className="material-icons md-24">highlight_off</span>
-          </button>
+          <Tooltip title="редактировать" placement="right">
+            <button className="sabTable-item-button" onClick={editItem}>
+              <span className="material-icons">edit</span>
+            </button>
+          </Tooltip>
+          <Tooltip title="сделать неактивным" placement="right">
+            <button className="sabTable-item-button" onClick={switActivness}>
+              <span className="material-icons">
+                {active ? "unpublished" : "published_with_changes"}
+              </span>
+            </button>
+          </Tooltip>
+          <Tooltip title="удалить" placement="right">
+            <button className="sabTable-item-button" onClick={deleteItem}>
+              <span className="material-icons md-24">highlight_off</span>
+            </button>
+          </Tooltip>
         </div>
       </div>
       <div
@@ -114,4 +124,3 @@ SubTableItem.propTypes = {
   stats: PropTypes.array,
   userID: PropTypes.string,
 };
-

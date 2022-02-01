@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 
+//генератор ссылки футера
 export default function FooterLink({item}) {
     const { link, name } = item;
     return (

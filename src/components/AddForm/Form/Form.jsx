@@ -12,6 +12,7 @@ import { addItemToDB, editItemInDB } from '../../../slices/app';
 import { resetForm } from "../../../slices/form";
 import checkFormData from "../../utils/checkFormData";
 
+//форма добавления новой подписки или редактирования старой
 export default function Form() {
   const dispatch = useDispatch();
   const userID = useSelector((state) => state.app.user.id);
@@ -25,21 +26,25 @@ export default function Form() {
   });
 
   useEffect(() => {
+    //обновляем форму при выходе со страницы редактирования
     return function cleanup() {
       dispatch(resetForm());
     }
   }, []);
 
+  // меняем локальное состояние формы
   const handleChange = (e) => {
     const { name } = e.target;
     const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value;
     setData({...data, [name]: value});
   };
 
+  //отвечает за дату
   const setDate = (newDate) => {
     setData({...data, date: newDate.toString()});
   };
 
+  //субмит
   const onSubmit = (e) => {
     e.preventDefault();
     const check = checkFormData(data, subs);
@@ -61,6 +66,7 @@ export default function Form() {
     }
   }
 
+  // сброс формы
   const cancel = () => {
     dispatch(resetForm());
     history.push('/');

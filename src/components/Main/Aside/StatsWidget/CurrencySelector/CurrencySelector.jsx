@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import { nanoid } from "@reduxjs/toolkit";
 import { useState } from "react";
 
+//набор кнопок для выбора валюты виджета
 export default function CurrencySelector({ select }) {
   const initial = [
     {
@@ -46,6 +47,7 @@ export default function CurrencySelector({ select }) {
   );
 }
 
+//кнопка
 function CurBtn({ el, click }) {
   return (
     <button

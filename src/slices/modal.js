@@ -20,6 +20,7 @@ export const modal = createSlice({
         resetModal: (state) => {
             state.active = false;
             state.id = null;
+            state.name = '';
         }
     }
 });

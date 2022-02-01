@@ -2,6 +2,7 @@ import { useHistory } from "react-router";
 import { useDispatch } from "react-redux";
 import { setStatusFullfiled } from "../../../slices/app";
 
+//кнопка на главную
 export default function ToMainBtn() {
   const history = useHistory();
   const dispatch = useDispatch();

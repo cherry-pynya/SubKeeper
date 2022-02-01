@@ -3,6 +3,7 @@ import SubTableItem from "./SubTableItem/SubTableItem";
 import StatusText from "./StatusText";
 import PropTypes from 'prop-types';
 
+//список полписок активных и нет
 export default function SubTable() {
   const data = useSelector((state) => state.app.data);
   const index = data.length;

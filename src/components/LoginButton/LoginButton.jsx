@@ -3,6 +3,7 @@ import { login, logout } from '../../slices/app';
 import { useHistory } from 'react-router';
 import PropTypes from 'prop-types';
 
+//кнопка входа/выхода не брендированная
 export default function LoginButton() {
     const dispatch = useDispatch();
     const history = useHistory();

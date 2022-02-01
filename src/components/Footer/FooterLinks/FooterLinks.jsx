@@ -1,6 +1,8 @@
 import { nanoid } from "@reduxjs/toolkit";
 import FooterLink from "./FooterLink/FooterLink";
 
+
+//список ссылок с контактами
 export default function FooterLinks() {
     const links = [
         {

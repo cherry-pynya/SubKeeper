@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { deleteFromDB } from "../../../../slices/app";
 import { resetModal } from '../../../../slices/modal';
 
+//модальное окно удаления подписки
 export default function SubDeleteModal() {
     const dispatch = useDispatch();
     const id = useSelector((state) => state.modal.id);

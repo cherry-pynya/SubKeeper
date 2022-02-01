@@ -2,6 +2,7 @@ import Page from "../Page/Page";
 import CircularProgress from "@mui/material/CircularProgress";
 import Box from "@mui/material/Box";
 
+//лоадер, показывается во время выполнения асинхронных запросов
 export default function Loader() {
   return (
     <Page>
