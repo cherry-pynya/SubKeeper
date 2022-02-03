@@ -2,6 +2,7 @@ import { useSelector } from "react-redux";
 import SubTableItem from "./SubTableItem/SubTableItem";
 import StatusText from "./StatusText";
 import PropTypes from 'prop-types';
+import Dashboard from '../Dashboard/Dashboard';
 
 //список полписок активных и нет
 export default function SubTable() {
@@ -19,6 +20,7 @@ export default function SubTable() {
   } else {
     return (
       <section className="subtable-section">
+        {active.length > 0 ? <Dashboard /> : false}
         <StatusText text={'активные'} />
         {active.map((el) => (
           <SubTableItem item={el} key={el.id} />

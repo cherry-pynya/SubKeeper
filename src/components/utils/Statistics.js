@@ -12,6 +12,7 @@ export default class Statistics {
   costPerMonth() {
     this.data.forEach((el) => {
         const {cost, option, date, name, currency, id, active, canceled} = el;
+        const payDay = moment(new Date(date)).get('date'); // календарный день оплаты
         const costPerMonth = (cost / option).toFixed(2); // считаем месяную стоимость подписки
         const [RUB, USD, EUR] = this.costPerCurrency(costPerMonth, currency); // считаем месяную стоимость подписки в других валютах
         let activeMonths; // считаем количество активных месяцев
@@ -24,7 +25,7 @@ export default class Statistics {
         } else {
           activeMonths = Math.floor(moment().diff(moment(date), 'months', true));
         }
-        this.addToStats({name, RUB, activeMonths, USD, EUR, id, currency, option, cost, active, canceled}); //добавляем все в объект со статистикой
+        this.addToStats({name, RUB, activeMonths, USD, EUR, id, currency, option, cost, active, canceled, date, payDay}); //добавляем все в объект со статистикой
     });
   };
 

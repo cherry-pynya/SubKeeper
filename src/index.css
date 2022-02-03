@@ -1,4 +1,5 @@
-html, body {
+html,
+body {
   height: 100%;
 }
 
@@ -17,7 +18,7 @@ html, body {
 
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", 'Source Sans Pro', sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", "Source Sans Pro", sans-serif;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -48,7 +49,7 @@ code {
 }
 
 .sabTable-item {
-  width: 90%;
+  width: 100%;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -56,8 +57,8 @@ code {
   -webkit-box-direction: normal;
       -ms-flex-direction: column;
           flex-direction: column;
-  margin-top: 20px;
-  font-family: 'Source Sans Pro', sans-serif;
+  margin: 20px 0 0 0;
+  font-family: "Source Sans Pro", sans-serif;
   color: #050505;
 }
 
@@ -85,7 +86,7 @@ code {
 }
 
 .border {
-  border: 2px solid #1DA1F2;
+  border: 2px solid #1da1f2;
   border-radius: 15px;
 }
 
@@ -154,7 +155,7 @@ code {
 .widget-container {
   width: 30%;
   height: 55vh;
-  margin-top: 60px;
+  margin: 60px 0 30px 0;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -182,7 +183,7 @@ code {
 }
 
 .footer {
-  background-color: #1DA1F2;
+  background-color: #1da1f2;
   width: 100%;
   height: 15vh;
   margin-top: 20px;
@@ -202,7 +203,7 @@ code {
 
 .header {
   width: 100%;
-  background-color: #1DA1F2;
+  background-color: #1da1f2;
   border-radius: 0 0 20px 20px;
   -webkit-transition: all 0.4s ease-in-out;
   transition: all 0.4s ease-in-out;
@@ -214,11 +215,11 @@ code {
 }
 
 .primary-color {
-  background-color: #1DA1F2;
+  background-color: #1da1f2;
 }
 
 .primary-color-main {
-  color: #1DA1F2;
+  color: #1da1f2;
 }
 
 .footer-container {
@@ -261,7 +262,7 @@ code {
   height: 30px;
   background-repeat: no-repeat;
   background-size: 22px;
-  background-color: #1DA1F2;
+  background-color: #1da1f2;
   background-position: center;
   display: -webkit-box;
   display: -ms-flexbox;
@@ -290,11 +291,11 @@ code {
 .google-button {
   font-family: "Roboto";
   font-weight: normal;
-  border: 1px #4285F4 solid;
+  border: 1px #4285f4 solid;
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
   display: inline-block;
-  background-color: #4285F4;
+  background-color: #4285f4;
   border-radius: 3px;
 }
 
@@ -303,7 +304,7 @@ code {
 }
 
 .google-button-icon {
-  background: url(./asets/icons/btn_google_light_normal_ios@2x.png) 50%;
+  background: url(./asets/icons/btn_google_light_normal_ios.svg) 50%;
   background-repeat: no-repeat;
   background-size: 45px;
   display: inline-block;
@@ -335,7 +336,7 @@ code {
 
 .page-not-found h1 {
   font-size: 8rem;
-  font-family: 'Helvetica Neue';
+  font-family: "Helvetica Neue";
   padding-bottom: 50px;
 }
 
@@ -378,7 +379,7 @@ code {
 }
 
 .ops-page h1 {
-  font-family: 'Helvetica Neue';
+  font-family: "Helvetica Neue";
 }
 
 .ops-page button {
@@ -454,6 +455,38 @@ code {
 .navbar-collapse {
   -webkit-transition: all 0.4s ease-in-out;
   transition: all 0.4s ease-in-out;
+}
+
+.dashboard-container {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  width: 100%;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  margin-top: 60px;
+}
+
+.dashboard-container div {
+  width: 33%;
+  height: 150px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+}
+
+.dashboard-container div div {
+  width: 100%;
+  height: 33%;
+}
+
+.dashboard-container div div span {
+  margin: auto;
 }
 
 @media (min-width: 765px) and (max-width: 1025px) {
@@ -598,12 +631,18 @@ code {
             justify-content: center;
   }
   .widget-container {
-    width: 60%;
+    width: 100%;
     height: 100%;
     margin: 20px auto;
   }
   .navbar-toggler:focus {
     outline: none;
+  }
+  .dashboard-container {
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
   }
 }
 /*# sourceMappingURL=index.css.map */

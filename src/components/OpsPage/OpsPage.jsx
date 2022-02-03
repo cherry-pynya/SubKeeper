@@ -1,7 +1,7 @@
 import Page from "../Page/Page";
 import ToMainBtn from "../PageNotFound/ToMainBtn/ToMainBtn";
 
-//страница выдаваемая при ошибке
+//страница выдаваемая при ошибке с сервера
 export default function OpsPage() {
     return (
         <Page>
