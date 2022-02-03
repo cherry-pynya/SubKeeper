@@ -7,5 +7,5 @@ export default function calculateTotalCost(stats, cur) {
         index += el['activeMonths'] * el[cur];
     });
     const uniCur = currencyConverter(cur)
-    return `За весь период потрачено: ${index} ${uniCur}`;
+    return `За весь период потрачено: ${index.toFixed(2)} ${uniCur}`;
 }
