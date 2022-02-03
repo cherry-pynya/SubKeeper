@@ -29,7 +29,12 @@ export default class DashBoardData {
         arr2.sort((a, b) => {
             return a.payDay - b.payDay;
         });
-        const el = arr2[0];
+        let el;
+        if (arr2.length === 0 ) {
+            el = arr[0];
+        } else {
+            el = arr2[0];
+        }
         const date = this.getPayDay(el);
         return {
             category: 'Ближайший платеж',
@@ -69,7 +74,8 @@ export default class DashBoardData {
     }
     //узнаем дату следующего платежа
     getPayDay(el) {
-        const { payDay } = el;
+        console.log(el)
+        const payDay = el['payDay'];
         const currentDay = moment(new Date()).get('date');
         const dateOfPayment = moment(new Date()).add((payDay - currentDay), 'd').format('L');
         return dateOfPayment;

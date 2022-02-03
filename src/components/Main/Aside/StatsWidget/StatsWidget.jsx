@@ -19,7 +19,6 @@ export default function StatsWidget() {
       return el;
     }
   });
-  console.log(subs)
   //данные для диаграммы
   const [data, setData] = useState([]);
   //изначально информация показывается в рублях
