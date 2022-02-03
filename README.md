@@ -22,5 +22,5 @@
 
 Тестовый аккаунт google для проверки приложения
 
-- логин https://subkeeper-b64b3.web.app/
+- логин testsubkeeper@gmail.com
 - пароль Qwerty12345!
