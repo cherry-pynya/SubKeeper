@@ -50,7 +50,6 @@ export default function StatsWidget() {
       <CurrencySelector select={selectCurrency} activeCur={cur} />
       <PieChart data={data} />
       <WidgetText text={cost} />
-      <WidgetText text={totalCost} />
     </div>
   );
 };
